@@ -6,6 +6,9 @@ const isWrapped = !!(window.__TAURI__ || window.Capacitor);
 const capNotif = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications;
 const capTts = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.TextToSpeech;
 
+// Current shipped version — bump on every release (see CONTRIBUTING.md).
+const APP_VERSION = "3.1";
+
 const $ = (sel) => document.querySelector(sel);
 const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
 
@@ -183,11 +186,41 @@ function wire() {
     store.settings.notify = !store.settings.notify; store.saveSettings();
     e.target.classList.toggle("on", store.settings.notify);
   };
-  $(".install .go").onclick = async () => {
-    $(".install").classList.remove("show");
+  $(".install:not(.update) .go").onclick = async () => {
+    $(".install:not(.update)").classList.remove("show");
     if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; }
   };
-  $(".install .x").onclick = () => $(".install").classList.remove("show");
+  $(".install:not(.update) .x").onclick = () => $(".install:not(.update)").classList.remove("show");
+}
+
+// ---------- update notice ----------
+// Best-effort: check GitHub for a newer release and surface a banner with a link.
+// Works on web, Chrome, Android, and the Tauri webview (no signing needed).
+function verCmp(a, b) {
+  const pa = (a || "").replace(/^v/, "").split("."), pb = (b || "").replace(/^v/, "").split(".");
+  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+    const x = parseInt(pa[i] || "0", 10), y = parseInt(pb[i] || "0", 10);
+    if (x !== y) return x - y;
+  }
+  return 0;
+}
+async function checkForUpdate() {
+  try {
+    const r = await fetch("https://api.github.com/repos/rakibulism/FloatingTodo/releases/latest",
+      { headers: { Accept: "application/vnd.github+json" } });
+    if (!r.ok) return;
+    const rel = await r.json();
+    const tag = rel.tag_name || "";
+    if (verCmp(tag, APP_VERSION) > 0 && localStorage.getItem("dismissedUpdate") !== tag) {
+      $("#update-ver").textContent = " · " + tag;
+      $("#update-link").onclick = () => window.open(rel.html_url, "_blank");
+      $("#update-x").onclick = () => {
+        localStorage.setItem("dismissedUpdate", tag);
+        $("#update-banner").classList.remove("show");
+      };
+      $("#update-banner").classList.add("show");
+    }
+  } catch (e) {}
 }
 
 // ---------- boot ----------
@@ -199,6 +232,7 @@ if ("speechSynthesis" in window) speechSynthesis.onvoiceschanged = () => {};
 render();
 wire();
 if (store.settings.notify) startWebNotifyLoop();
+checkForUpdate();
 
 // Announce on launch when running as an installed/standalone/wrapped app
 // (best-effort; browsers may gate audio behind a gesture, so the speaker button

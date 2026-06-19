@@ -631,6 +631,49 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         if settings.speak && CommandLine.arguments.contains("--auto") {
             speaker.announce(regularPending: store.remaining, mustPending: mustDo.pendingToday)
         }
+
+        checkForUpdate()
+    }
+
+    // MARK: - Update check (best-effort; links to the GitHub release)
+    private static let appVersion = "3.1"
+
+    private func checkForUpdate() {
+        guard let url = URL(string: "https://api.github.com/repos/rakibulism/FloatingTodo/releases/latest") else { return }
+        var req = URLRequest(url: url)
+        req.setValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
+        URLSession.shared.dataTask(with: req) { data, _, _ in
+            guard let data = data,
+                  let obj = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  let tag = obj["tag_name"] as? String,
+                  let html = obj["html_url"] as? String else { return }
+            guard Self.isNewer(tag, than: Self.appVersion),
+                  UserDefaults.standard.string(forKey: "dismissedUpdate") != tag else { return }
+            DispatchQueue.main.async { self.showUpdatePrompt(tag: tag, url: html) }
+        }.resume()
+    }
+
+    private static func isNewer(_ a: String, than b: String) -> Bool {
+        func parts(_ s: String) -> [Int] { s.replacingOccurrences(of: "v", with: "").split(separator: ".").map { Int($0) ?? 0 } }
+        let pa = parts(a), pb = parts(b)
+        for i in 0..<max(pa.count, pb.count) {
+            let x = i < pa.count ? pa[i] : 0, y = i < pb.count ? pb[i] : 0
+            if x != y { return x > y }
+        }
+        return false
+    }
+
+    private func showUpdatePrompt(tag: String, url: String) {
+        let alert = NSAlert()
+        alert.messageText = "Update available — \(tag)"
+        alert.informativeText = "A newer version of Today is available on GitHub."
+        alert.addButton(withTitle: "Download")
+        alert.addButton(withTitle: "Later")
+        if alert.runModal() == .alertFirstButtonReturn {
+            if let u = URL(string: url) { NSWorkspace.shared.open(u) }
+        } else {
+            UserDefaults.standard.set(tag, forKey: "dismissedUpdate")
+        }
     }
 
     private func buildMenu() {

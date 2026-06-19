@@ -13,9 +13,22 @@ fn main() {
             MacosLauncher::LaunchAgent,
             Some(vec!["--auto"]),
         ))
-        .setup(|_app| {
+        .plugin(tauri_plugin_updater::Builder::new().build())
+        .setup(|app| {
             #[cfg(target_os = "windows")]
             ensure_hourly_task();
+
+            // Silent auto-update on launch. No-op until the updater is configured
+            // (endpoints + pubkey in tauri.conf.json) — see UPDATER.md.
+            let handle = app.handle().clone();
+            tauri::async_runtime::spawn(async move {
+                use tauri_plugin_updater::UpdaterExt;
+                if let Ok(updater) = handle.updater() {
+                    if let Ok(Some(update)) = updater.check().await {
+                        let _ = update.download_and_install(|_, _| {}, || {}).await;
+                    }
+                }
+            });
             Ok(())
         })
         .run(tauri::generate_context!())

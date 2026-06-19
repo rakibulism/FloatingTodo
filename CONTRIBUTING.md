@@ -62,7 +62,9 @@ describe the problem you're trying to solve.
 
 ## Releases (maintainers)
 
-1. Bump versions where relevant and update the `releases-data` block in
+1. Bump the version constants — `APP_VERSION` in `apps/web/app/ui.js` and
+   `appVersion` in `apps/macos/Sources/main.swift` (these drive the "update
+   available" check) — and update the `releases-data` block in
    `apps/web/index.html` (the changelog + the site's "what's new" bell read from it).
 2. Push a `vX` tag — the **Windows** and **Android** GitHub Actions build installers
    and attach them to the matching GitHub Release automatically.
