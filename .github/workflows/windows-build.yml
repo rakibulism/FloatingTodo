@@ -33,7 +33,7 @@ jobs:
 
       - name: Generate app icons
         working-directory: apps/windows
-        run: cargo tauri icon ../../web/assets/icon-1024.png
+        run: cargo tauri icon "${{ github.workspace }}/apps/web/assets/icon-1024.png"
 
       - name: Build installers
         working-directory: apps/windows
