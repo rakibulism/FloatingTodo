@@ -67,12 +67,35 @@ function pickVoice() {
   const male = v.find((x) => /en/i.test(x.lang) && /(daniel|alex|fred|male|aaron|arthur|google uk english male)/i.test(x.name));
   return male || v.find((x) => /en/i.test(x.lang)) || v[0];
 }
-function speak() {
+// Native (Capacitor) TTS: resolve a male-ish English voice once, best-effort.
+// Android TTS voices don't expose gender, so we sniff the name/URI and fall back
+// to the first English voice, then the engine default.
+let capVoiceIdx = null, capVoiceResolved = false;
+async function resolveCapVoice() {
+  if (capVoiceResolved || !capTts) return;
+  capVoiceResolved = true;
+  try {
+    const res = await capTts.getSupportedVoices();
+    const voices = (res && res.voices) || [];
+    const en = voices.map((v, i) => ({ v, i })).filter((o) => /^en/i.test(o.v.lang || ""));
+    const male = en.find((o) => {
+      const s = ((o.v.voiceURI || "") + " " + (o.v.name || "")).toLowerCase();
+      return /(male|_m_|#male|-m\b)/.test(s) && !/female/.test(s);
+    });
+    const chosen = male || en[0];
+    capVoiceIdx = chosen ? chosen.i : null;
+  } catch (e) { capVoiceIdx = null; }
+}
+
+async function speak() {
   const text = pendingSentence();
   // Android (Capacitor WebView) doesn't reliably support Web Speech — use the
   // native TextToSpeech plugin there. Everything else uses the Web Speech API.
   if (capTts) {
-    capTts.speak({ text, lang: "en-US", rate: 1.0 }).catch(() => {});
+    await resolveCapVoice();
+    const opts = { text, lang: "en-US", rate: 1.0 };
+    if (capVoiceIdx != null) opts.voice = capVoiceIdx;
+    capTts.speak(opts).catch(() => {});
     return;
   }
   if (!("speechSynthesis" in window)) return;
