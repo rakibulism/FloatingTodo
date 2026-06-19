@@ -13,7 +13,17 @@ how many tasks you have pending, and supports **must-do daily tasks**.
 - **Schedule:** `~/Library/LaunchAgents/com.rakib.floatingtodo.plist`
   (the app rewrites & reloads this itself whenever you change settings)
 
-## Install (clone & build)
+## Install
+
+### Option A — download the prebuilt app
+Grab `FloatingTodo.zip` from the [latest release](https://github.com/rakibulism/FloatingTodo/releases/latest),
+unzip it, and move `FloatingTodo.app` to `/Applications` (or anywhere).
+
+> **First launch:** the app is ad-hoc signed (not notarized), so macOS Gatekeeper
+> will block it the first time. Right-click the app → **Open** → **Open** to allow
+> it. You only need to do this once.
+
+### Option B — clone & build
 Requires macOS 13+ and the Swift toolchain (`xcode-select --install`).
 ```bash
 git clone https://github.com/rakibulism/FloatingTodo.git
