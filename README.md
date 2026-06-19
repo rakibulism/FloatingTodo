@@ -13,6 +13,18 @@ how many tasks you have pending, and supports **must-do daily tasks**.
 - **Schedule:** `~/Library/LaunchAgents/com.rakib.floatingtodo.plist`
   (the app rewrites & reloads this itself whenever you change settings)
 
+## Install (clone & build)
+Requires macOS 13+ and the Swift toolchain (`xcode-select --install`).
+```bash
+git clone https://github.com/rakibulism/FloatingTodo.git
+cd FloatingTodo
+./build.sh
+open -a ~/Applications/FloatingTodo.app
+```
+`build.sh` compiles the app into `~/Applications/FloatingTodo.app`. The app then
+installs/refreshes its own LaunchAgent on first launch, so the hourly schedule
+starts automatically.
+
 ## Behavior
 - **Always on top** — overlays all windows and full-screen apps; follows you across Spaces.
 - **Auto-opens every hour** by default. Add your own **custom times**, toggle any
@@ -33,7 +45,7 @@ how many tasks you have pending, and supports **must-do daily tasks**.
 
 ## Rebuild after editing the source
 ```bash
-cd "~/Downloads/todo mac app" && ./build.sh
+./build.sh   # from the repo root
 ```
 
 ## Turn auto-open off entirely (keep the app)
