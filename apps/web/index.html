@@ -420,6 +420,7 @@
         <details class="reveal"><summary>Does it work offline?<span class="plus"></span></summary><p>Completely. The native apps and the installable web app store your tasks locally on your device — there's no server and nothing to sign in to.</p></details>
         <details class="reveal"><summary>Why can't the web version float on top?<span class="plus"></span></summary><p>Browsers can't draw over other apps or launch themselves on a schedule — that's an OS limitation. So the web app is a clean, installable to-do list and uses notifications; the floating-on-top behavior lives in the native macOS &amp; Windows apps.</p></details>
         <details class="reveal"><summary>How do the scheduled reminders work?<span class="plus"></span></summary><p>Each platform uses its native scheduler: launchd on macOS, Task Scheduler on Windows, and scheduled notifications on Android. You pick the times in Settings.</p></details>
+        <details class="reveal"><summary>Does it update automatically?<span class="plus"></span></summary><p>Every app shows an in-app “update available” notice when a new version ships, so you never have to check back. The web app updates itself, and the Windows app installs updates silently on launch.</p></details>
       </div>
     </div>
   </section>
@@ -448,6 +449,11 @@
 
 <script type="application/json" id="releases-data">
 [
+  { "version": "v3.2", "date": "2026-06-19", "title": "Auto-update & update notices", "url": "https://github.com/rakibulism/FloatingTodo/releases/tag/v3.2",
+    "highlights": [
+      { "type": "feature", "text": "In-app “update available” notice on every platform — no more checking GitHub" },
+      { "type": "feature", "text": "Windows installs updates automatically on launch (Tauri updater)" }
+    ] },
   { "version": "v3.1", "date": "2026-06-19", "title": "Android voice fix", "url": "https://github.com/rakibulism/FloatingTodo/releases/tag/v3.1",
     "highlights": [
       { "type": "fix", "text": "Android voice now works — speaks via the native TextToSpeech engine" },

@@ -636,7 +636,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
 
     // MARK: - Update check (best-effort; links to the GitHub release)
-    private static let appVersion = "3.1"
+    private static let appVersion = "3.2"
 
     private func checkForUpdate() {
         guard let url = URL(string: "https://api.github.com/repos/rakibulism/FloatingTodo/releases/latest") else { return }
