@@ -1,16 +1,16 @@
 name: Android build
 
-# Builds a debug .apk on an Ubuntu runner: installs Node deps, generates the
-# native Capacitor Android project (it's gitignored), syncs the shared web UI,
-# then assembles with Gradle. Produces an installable debug APK without needing
-# Android Studio locally.
+# Builds an Android APK on an Ubuntu runner: installs Node deps, generates the
+# native Capacitor project (gitignored), syncs the shared web UI, then assembles
+# with Gradle.
+#
+# Signing: if the ANDROID_KEYSTORE_BASE64 secret is set, a *signed release* APK
+# is produced; otherwise it falls back to a debug APK. See apps/android/README.md
+# for how to create the keystore and add the four secrets.
 #
 # Triggers:
 #   • Manually  → Actions tab → "Android build" → Run workflow (uploads the APK)
 #   • On a v* tag → also attaches the APK to that GitHub Release
-#
-# Note: this is a DEBUG apk (debug-signed). A Play-ready release build needs a
-# signing keystore — wire that as a separate signed step when you're ready.
 on:
   workflow_dispatch:
   push:
@@ -48,21 +48,47 @@ jobs:
       - name: Sync shared web UI + plugins
         run: npx cap sync android
 
-      - name: Build debug APK
+      - name: Prepare signing (if configured)
+        id: signing
+        env:
+          KS_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$KS_B64" ]; then
+            echo "$KS_B64" | base64 -d > "$RUNNER_TEMP/release.jks"
+            echo "signed=true" >> "$GITHUB_OUTPUT"
+            echo "Keystore present → building a SIGNED RELEASE APK."
+          else
+            echo "signed=false" >> "$GITHUB_OUTPUT"
+            echo "No ANDROID_KEYSTORE_BASE64 secret → building a DEBUG APK."
+          fi
+
+      - name: Build APK
         working-directory: apps/android/android
+        env:
+          STORE_PW: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PW: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
           chmod +x ./gradlew
-          ./gradlew assembleDebug --no-daemon
+          if [ "${{ steps.signing.outputs.signed }}" = "true" ]; then
+            ./gradlew assembleRelease --no-daemon \
+              -Pandroid.injected.signing.store.file="$RUNNER_TEMP/release.jks" \
+              -Pandroid.injected.signing.store.password="$STORE_PW" \
+              -Pandroid.injected.signing.key.alias="$KEY_ALIAS" \
+              -Pandroid.injected.signing.key.password="$KEY_PW"
+          else
+            ./gradlew assembleDebug --no-daemon
+          fi
 
       - name: Upload APK (artifact)
         uses: actions/upload-artifact@v4
         with:
-          name: today-android-debug-apk
+          name: today-android-apk
           if-no-files-found: error
-          path: apps/android/android/app/build/outputs/apk/debug/app-debug.apk
+          path: apps/android/android/app/build/outputs/apk/**/*.apk
 
       - name: Attach to GitHub Release (tags only)
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
-          files: apps/android/android/app/build/outputs/apk/debug/app-debug.apk
+          files: apps/android/android/app/build/outputs/apk/**/*.apk
