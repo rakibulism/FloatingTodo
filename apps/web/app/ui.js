@@ -4,6 +4,7 @@ import { store, greeting, dateLine, pendingSentence } from "./core.js";
 // shell, and in the Android Capacitor shell.
 const isWrapped = !!(window.__TAURI__ || window.Capacitor);
 const capNotif = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications;
+const capTts = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.TextToSpeech;
 
 const $ = (sel) => document.querySelector(sel);
 const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
@@ -67,8 +68,15 @@ function pickVoice() {
   return male || v.find((x) => /en/i.test(x.lang)) || v[0];
 }
 function speak() {
+  const text = pendingSentence();
+  // Android (Capacitor WebView) doesn't reliably support Web Speech — use the
+  // native TextToSpeech plugin there. Everything else uses the Web Speech API.
+  if (capTts) {
+    capTts.speak({ text, lang: "en-US", rate: 1.0 }).catch(() => {});
+    return;
+  }
   if (!("speechSynthesis" in window)) return;
-  const u = new SpeechSynthesisUtterance(pendingSentence());
+  const u = new SpeechSynthesisUtterance(text);
   const voice = pickVoice(); if (voice) u.voice = voice;
   u.rate = 1.0;
   speechSynthesis.cancel(); speechSynthesis.speak(u);

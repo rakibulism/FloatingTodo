@@ -55,6 +55,7 @@ signed `app-release.apk`. ⚠️ Keep `today-release.jks` and its passwords back
 — losing them means you can't ship updates under the same app identity.
 
 ## Notes
+- **Voice**: Android's WebView doesn't support the Web Speech API, so the app speaks via the native [`@capacitor-community/text-to-speech`](https://github.com/capacitor-community/text-to-speech) plugin (the shared UI auto-detects Capacitor and routes to it). Run `npx cap sync` after `npm install` so the native plugin is wired in.
 - **Reminders**: enable in the app's Settings → grants notification permission and schedules an hourly reminder.
 - **Always-on-top**: Android can draw over other apps only with the `SYSTEM_ALERT_WINDOW` ("display over other apps") permission and a foreground service — that's an advanced native addition, not included in this thin shell.
 - `node_modules/` and the generated `android/` folder are gitignored.
