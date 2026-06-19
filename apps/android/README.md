@@ -6,9 +6,14 @@ reminders that fire even when the app is closed) via `@capacitor/local-notificat
 The shared UI detects Capacitor at runtime and routes reminders to the native
 plugin.
 
-> ⚠️ Not built in this environment — generating the Gradle project and APK
-> requires Node, the Android SDK, and Android Studio on your machine. The steps
-> below are the standard Capacitor flow.
+> 💡 **No Android toolchain locally? Use CI.** The
+> [`Android build`](../../.github/workflows/android-build.yml) GitHub Action
+> scaffolds the native project and assembles a debug `.apk` on an Ubuntu runner.
+> Trigger it from the **Actions** tab → *Android build* → *Run workflow* (the APK
+> appears as an artifact), or push a `v*` tag to also attach it to the Release.
+> (Debug-signed; a Play-ready release build needs a signing keystore.)
+>
+> The steps below are for building locally.
 
 ## Build
 ```bash

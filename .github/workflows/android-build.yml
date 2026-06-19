@@ -1,0 +1,68 @@
+name: Android build
+
+# Builds a debug .apk on an Ubuntu runner: installs Node deps, generates the
+# native Capacitor Android project (it's gitignored), syncs the shared web UI,
+# then assembles with Gradle. Produces an installable debug APK without needing
+# Android Studio locally.
+#
+# Triggers:
+#   • Manually  → Actions tab → "Android build" → Run workflow (uploads the APK)
+#   • On a v* tag → also attaches the APK to that GitHub Release
+#
+# Note: this is a DEBUG apk (debug-signed). A Play-ready release build needs a
+# signing keystore — wire that as a separate signed step when you're ready.
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/android
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate native Android project
+        run: npx cap add android
+
+      - name: Sync shared web UI + plugins
+        run: npx cap sync android
+
+      - name: Build debug APK
+        working-directory: apps/android/android
+        run: |
+          chmod +x ./gradlew
+          ./gradlew assembleDebug --no-daemon
+
+      - name: Upload APK (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: today-android-debug-apk
+          if-no-files-found: error
+          path: apps/android/android/app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Attach to GitHub Release (tags only)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: apps/android/android/app/build/outputs/apk/debug/app-debug.apk
