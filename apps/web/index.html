@@ -232,7 +232,10 @@
   .pcard .pi { color: var(--text); margin-bottom: 4px; }
   .pcard h3 { font-size: 17px; font-weight: 600; }
   .pcard p { font-size: 13px; color: var(--muted); flex: 1; }
-  .pcard a.dl { margin-top: 8px; display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: var(--brand); }
+  .pcard .dls { margin-top: 10px; display: flex; flex-direction: column; gap: 7px; }
+  .pcard a.dl { display: inline-flex; align-items: baseline; gap: 6px; font-size: 13px; font-weight: 600; color: var(--brand); }
+  .pcard a.dl:hover { text-decoration: underline; }
+  .pcard a.dl .sz { color: var(--faint); font-weight: 500; font-size: 12px; }
   .pcard .tag { font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--faint); }
   @media (max-width: 880px) { .plat { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 480px) { .plat { grid-template-columns: 1fr; } }
@@ -407,28 +410,37 @@
           <span class="tag">Native</span>
           <h3>macOS</h3>
           <p>13+. Always-on-top, launchd schedule, voice.</p>
-          <a class="dl" href="https://github.com/rakibulism/FloatingTodo/releases/latest/download/Today-macOS.zip">Download .zip →</a>
+          <div class="dls">
+            <a class="dl" id="dl-mac" href="https://github.com/rakibulism/FloatingTodo/releases/latest/download/Today-macOS.zip">Download .zip <span class="sz">· 446 KB</span></a>
+          </div>
         </div>
         <div class="pcard reveal">
           <div class="pi"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5 10.5 4.5v7H3zM10.5 12.5v7L3 18.5V12.5zM11.5 4.4 21 3v8.5h-9.5zM21 12.5V21l-9.5-1.4V12.5z"/></svg></div>
           <span class="tag">Native</span>
           <h3>Windows</h3>
           <p>Always-on-top, Task Scheduler. Built in CI.</p>
-          <a class="dl" href="https://github.com/rakibulism/FloatingTodo/releases/latest">Get .msi / .exe →</a>
+          <div class="dls">
+            <a class="dl" id="dl-win-msi" href="https://github.com/rakibulism/FloatingTodo/releases/latest/download/Today_1.0.0_x64_en-US.msi">Download .msi <span class="sz">· 2.8 MB</span></a>
+            <a class="dl" id="dl-win-exe" href="https://github.com/rakibulism/FloatingTodo/releases/latest/download/Today_1.0.0_x64-setup.exe">.exe setup <span class="sz">· 1.9 MB</span></a>
+          </div>
         </div>
         <div class="pcard reveal">
           <div class="pi"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M6 9h12v8a2 2 0 0 1-2 2h-1v2.5h-2V19h-2v2.5H9V19H8a2 2 0 0 1-2-2zM4 9.5a1.2 1.2 0 0 1 2.4 0V15A1.2 1.2 0 0 1 4 15zm13.6 0a1.2 1.2 0 0 1 2.4 0V15a1.2 1.2 0 0 1-2.4 0zM7.5 8c.3-1.8 1.4-3.3 3-4.1l-.9-1.6.7-.4.95 1.7a5.7 5.7 0 0 1 3.5 0l.95-1.7.7.4-.9 1.6c1.6.8 2.7 2.3 3 4.1z"/></svg></div>
           <span class="tag">Native</span>
           <h3>Android</h3>
           <p>Scheduled reminders. APK built in CI.</p>
-          <a class="dl" href="https://github.com/rakibulism/FloatingTodo/releases/latest/download/app-debug.apk">Download .apk →</a>
+          <div class="dls">
+            <a class="dl" id="dl-apk" href="https://github.com/rakibulism/FloatingTodo/releases/latest/download/app-debug.apk">Download .apk <span class="sz">· 3.8 MB</span></a>
+          </div>
         </div>
         <div class="pcard reveal">
           <div class="pi"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div>
           <span class="tag">Installable</span>
           <h3>Web app</h3>
           <p>Offline PWA. Add to home screen or dock.</p>
-          <a class="dl" href="/app/">Open web app →</a>
+          <div class="dls">
+            <a class="dl" href="/app/">Open web app <span class="sz">· no install</span></a>
+          </div>
         </div>
       </div>
       <p class="meta reveal" style="margin-top:18px">macOS first launch: right-click → Open → Open once (it's ad-hoc signed). All downloads on the <a href="https://github.com/rakibulism/FloatingTodo/releases/latest" style="color:var(--brand);font-weight:600">latest release</a>.</p>
@@ -572,6 +584,32 @@
   document.addEventListener("click", (e) => { if (pop.classList.contains("open") && !pop.contains(e.target)) closePop(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closePop(); });
   document.getElementById("pop-all").addEventListener("click", closePop);
+
+  // ---------- Live downloads (resolve real asset URLs + sizes from the latest release) ----------
+  // Falls back silently to the static hrefs/sizes already in the markup.
+  (function loadDownloads() {
+    const fmtSize = (b) => (b >= 1048576 ? (b / 1048576).toFixed(1) + " MB" : Math.round(b / 1024) + " KB");
+    const apply = (id, asset) => {
+      const el = document.getElementById(id);
+      if (!el || !asset) return;
+      el.href = asset.browser_download_url;
+      const sz = el.querySelector(".sz");
+      if (sz) sz.textContent = "· " + fmtSize(asset.size);
+    };
+    fetch("https://api.github.com/repos/rakibulism/FloatingTodo/releases/latest", {
+      headers: { Accept: "application/vnd.github+json" },
+    })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((rel) => {
+        const a = rel.assets || [];
+        const find = (re) => a.find((x) => re.test(x.name));
+        apply("dl-mac", find(/mac.*\.zip$/i) || find(/\.zip$/i));
+        apply("dl-win-msi", find(/\.msi$/i));
+        apply("dl-win-exe", find(/\.exe$/i));
+        apply("dl-apk", find(/\.apk$/i));
+      })
+      .catch(() => {});
+  })();
 
   // ---------- Scroll reveal ----------
   const io = new IntersectionObserver((entries) => {
