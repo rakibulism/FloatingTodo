@@ -39,6 +39,7 @@
     --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
     --maxw: 1120px; --nav-h: 64px;
     --feature: #16a34a; --improvement: #2563eb; --fix: #d97706;
+    --lime: #c8f04a; --lime-ink: #15170a;
   }
   [data-theme="light"] {
     --bg: #efefe9; --bg-alt: #e7e7df; --text: #18170f; --muted: #5c5b4f; --faint: #97968a;
@@ -141,6 +142,17 @@
   .hero .eyebrow { justify-content: center; }
   .hero .cta-row { justify-content: center; }
   .hero .stats { text-align: left; }
+
+  /* hero segmented toggle */
+  .toggle { display: inline-flex; gap: 4px; margin-top: 22px; padding: 4px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface); }
+  .toggle button { border: none; background: none; color: var(--muted); font-weight: 600; font-size: 14px; padding: 9px 22px; border-radius: 999px; cursor: pointer; transition: color 0.2s var(--ease), background 0.2s var(--ease), box-shadow 0.2s var(--ease); }
+  .toggle button:hover { color: var(--text); }
+  .toggle button[aria-pressed="true"] { background: var(--card); color: var(--text); box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.05); }
+
+  /* lime celebration badge */
+  .badge-lime { display: inline-flex; align-items: center; gap: 8px; margin-top: 22px; background: var(--lime); color: var(--lime-ink);
+    font-weight: 600; font-size: 14px; padding: 9px 18px; border-radius: 999px; letter-spacing: -0.005em; }
+  .badge-lime b { font-weight: 700; }
   .sec-head { max-width: 50ch; margin-bottom: 52px; }
   .sec-head .eyebrow { margin-bottom: 20px; }
   h1 { font-family: "Hedvig Letters Serif", "Playfair Display", Georgia, serif; font-optical-sizing: auto; font-size: clamp(42px, 7vw, 82px); font-weight: 400; line-height: 1.04; letter-spacing: -0.01em; margin: 24px 0 0; max-width: 17ch; }
@@ -284,12 +296,17 @@
   <section class="hero">
     <div class="wrap">
       <span class="eyebrow reveal"><b>[00]</b> macOS · Windows · Android · Web</span>
+      <div class="reveal"><div class="toggle" role="group" aria-label="Pick your device">
+        <button data-mode="desktop" aria-pressed="true">Desktop</button>
+        <button data-mode="mobile" aria-pressed="false">Mobile</button>
+      </div></div>
       <h1 class="reveal">The to-do list you <span class="accent">can't ignore.</span></h1>
-      <p class="lede reveal">It floats on top of every window, opens itself on a schedule, and reads out what's still pending — so the things that matter actually get done, not buried. On every platform you use.</p>
+      <p class="lede reveal" id="hero-lede">It floats on top of every window, opens itself on a schedule, and reads out what's still pending — so the things that matter actually get done, not buried.</p>
       <div class="cta-row reveal">
         <a class="btn primary" href="#download">Get Today — it's free</a>
         <a class="btn secondary" href="/app/">Open the web app</a>
       </div>
+      <div class="reveal"><span class="badge-lime">Now on <b>4 platforms</b> 🎉</span></div>
       <p class="note reveal">No account. No fees. Open source.</p>
 
       <div class="stats reveal">
@@ -454,6 +471,17 @@
   applyTheme(themePref);
   document.querySelectorAll("[data-theme-pick]").forEach((b) => b.addEventListener("click", () => { themePref = b.dataset.themePick; localStorage.setItem("theme", themePref); applyTheme(themePref); }));
   mq.addEventListener("change", () => { if (themePref === "system") applyTheme("system"); });
+
+  // ---------- Hero device toggle ----------
+  const LEDE = {
+    desktop: "It floats on top of every window, opens itself on a schedule, and reads out what's still pending — so the things that matter actually get done, not buried.",
+    mobile: "Installable on your phone with scheduled reminders and daily must-do tasks that reset each morning — your list is always a tap away, online or off.",
+  };
+  document.querySelectorAll("[data-mode]").forEach((b) =>
+    b.addEventListener("click", () => {
+      document.querySelectorAll("[data-mode]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+      document.getElementById("hero-lede").textContent = LEDE[b.dataset.mode];
+    }));
 
   // ---------- Releases + bell ----------
   const releases = JSON.parse(document.getElementById("releases-data").textContent);
