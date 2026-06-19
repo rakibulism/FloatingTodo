@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Today — the floating to-do you can't ignore</title>
+<title>Today — the to-do list you can't ignore</title>
 <meta name="description" content="A cross-platform to-do app that floats on top, opens itself on a schedule, and reads out what's pending. Native macOS & Windows, Android, and an installable web app." />
-<meta name="theme-color" content="#06070a" id="meta-theme" />
+<meta name="theme-color" content="#ffffff" id="meta-theme" />
 
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Today — Floating to-dos. On top. On time." />
@@ -20,7 +20,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-<!-- Anti-FOUC: resolve theme before first paint -->
 <script>
   (function () {
     try {
@@ -34,259 +33,226 @@
 </script>
 
 <style>
-  /* ---------- Theme tokens ---------- */
   :root {
-    --brand: #6a78ff;
-    --brand-2: #4a57e6;
-    --brand-ink: #ffffff;
-    --feature: #4cd6a0;
-    --improve: #6a9bff;
-    --fix: #ffb454;
-    --radius: 18px;
-    --ease: cubic-bezier(0.32, 0.72, 0, 1);
-    --maxw: 1140px;
-    --nav-h: 68px;
-  }
-  [data-theme="dark"] {
-    --bg: #06070a;
-    --bg-grad-1: rgba(91,108,255,0.20);
-    --bg-grad-2: rgba(120,80,255,0.13);
-    --surface: rgba(255,255,255,0.04);
-    --surface-2: rgba(255,255,255,0.06);
-    --solid: #11131b;
-    --border: rgba(255,255,255,0.09);
-    --border-strong: rgba(255,255,255,0.16);
-    --text: #eef0f5;
-    --muted: #9aa0b0;
-    --faint: #6b7180;
-    --shadow: 0 30px 80px rgba(0,0,0,0.55);
-    --brand-soft: rgba(106,120,255,0.14);
-    --nav-bg: rgba(12,13,20,0.7);
+    --accent: #4b48f5;
+    --r: 14px; --r-sm: 10px;
+    --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+    --maxw: 1120px; --nav-h: 64px;
+    --feature: #16a34a; --improvement: #2563eb; --fix: #d97706;
   }
   [data-theme="light"] {
-    --bg: #f6f7fb;
-    --bg-grad-1: rgba(91,108,255,0.16);
-    --bg-grad-2: rgba(120,80,255,0.10);
-    --surface: rgba(18,22,55,0.035);
-    --surface-2: rgba(18,22,55,0.06);
-    --solid: #ffffff;
-    --border: rgba(18,22,55,0.10);
-    --border-strong: rgba(18,22,55,0.18);
-    --text: #14161d;
-    --muted: #5a6072;
-    --faint: #878da0;
-    --shadow: 0 24px 60px rgba(30,35,70,0.12);
-    --brand-soft: rgba(74,87,230,0.10);
-    --nav-bg: rgba(255,255,255,0.72);
+    --bg: #ffffff; --bg-alt: #f5f5f7; --text: #0b0b0d; --muted: #5d5d68; --faint: #9b9ba6;
+    --border: rgba(11,11,13,0.10); --border-2: rgba(11,11,13,0.20);
+    --surface: #f6f6f8; --card: #ffffff;
+    --primary: #0b0b0d; --primary-ink: #ffffff;
+    --accent: #4b48f5; --accent-soft: rgba(75,72,245,0.08);
+    --shadow: 0 1px 2px rgba(11,11,13,0.04), 0 12px 32px rgba(11,11,13,0.06);
+    --nav-bg: rgba(255,255,255,0.8);
   }
-  [data-theme="light"] .brand-grad { --brand: #4a57e6; }
+  [data-theme="dark"] {
+    --bg: #0a0a0c; --bg-alt: #101013; --text: #f3f3f6; --muted: #a0a0ab; --faint: #6a6a76;
+    --border: rgba(255,255,255,0.12); --border-2: rgba(255,255,255,0.24);
+    --surface: #141417; --card: #121216;
+    --primary: #ffffff; --primary-ink: #0a0a0c;
+    --accent: #8b88ff; --accent-soft: rgba(139,136,255,0.12);
+    --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 18px 40px rgba(0,0,0,0.4);
+    --nav-bg: rgba(10,10,12,0.78);
+  }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; scroll-padding-top: 90px; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; scroll-padding-top: 88px; }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
   body {
     font-family: "Geist", system-ui, -apple-system, sans-serif;
-    background: var(--bg); color: var(--text);
-    line-height: 1.5; letter-spacing: -0.01em;
-    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
-    overflow-x: hidden; transition: background 0.4s var(--ease), color 0.4s var(--ease);
+    background: var(--bg); color: var(--text); line-height: 1.5; letter-spacing: -0.011em;
+    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; overflow-x: hidden;
+    transition: background 0.4s var(--ease), color 0.4s var(--ease);
   }
   a { color: inherit; text-decoration: none; }
-  :focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 6px; }
-
-  .orbs { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
-  .orb { position: absolute; border-radius: 50%; filter: blur(90px); }
-  .orb.a { width: 620px; height: 620px; top: -240px; left: -120px; background: radial-gradient(circle, var(--bg-grad-1), transparent 70%); }
-  .orb.b { width: 520px; height: 520px; top: 120px; right: -180px; background: radial-gradient(circle, var(--bg-grad-2), transparent 70%); }
-
-  .skip { position: absolute; left: -999px; top: 8px; background: var(--brand); color: #fff;
-    padding: 10px 16px; border-radius: 10px; z-index: 100; font-weight: 600; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 5px; }
+  .skip { position: absolute; left: -999px; top: 8px; background: var(--primary); color: var(--primary-ink); padding: 10px 16px; border-radius: 8px; z-index: 100; font-weight: 600; }
   .skip:focus { left: 16px; }
-
   .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
 
+  /* numbered eyebrow */
+  .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: "Geist Mono", monospace;
+    font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); font-weight: 500; }
+  .eyebrow b { color: var(--accent); font-weight: 500; }
+
   /* ---------- Nav ---------- */
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; padding: 14px 16px; display: flex; justify-content: center; }
-  .nav-pill {
-    width: 100%; max-width: var(--maxw); display: flex; align-items: center; gap: 14px;
-    background: var(--nav-bg); backdrop-filter: blur(18px) saturate(160%); -webkit-backdrop-filter: blur(18px) saturate(160%);
-    border: 1px solid var(--border); border-radius: 999px; padding: 9px 9px 9px 18px;
-    box-shadow: var(--shadow);
-  }
-  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: var(--nav-h);
+    background: var(--nav-bg); backdrop-filter: blur(14px) saturate(180%); -webkit-backdrop-filter: blur(14px) saturate(180%);
+    border-bottom: 1px solid var(--border); }
+  .nav-in { max-width: var(--maxw); margin: 0 auto; height: 100%; padding: 0 24px; display: flex; align-items: center; gap: 16px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; letter-spacing: -0.02em; }
   .brand img { width: 26px; height: 26px; border-radius: 7px; }
-  .nav-links { display: flex; gap: 6px; margin-left: 8px; }
-  .nav-links a { color: var(--muted); font-size: 14px; font-weight: 500; padding: 8px 12px; border-radius: 10px; transition: color 0.25s var(--ease), background 0.25s var(--ease); }
+  .nav-links { display: flex; gap: 4px; margin-left: 10px; }
+  .nav-links a { color: var(--muted); font-size: 14px; font-weight: 500; padding: 8px 11px; border-radius: 8px; transition: color 0.2s var(--ease), background 0.2s var(--ease); }
   .nav-links a:hover { color: var(--text); background: var(--surface); }
   .nav-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
 
-  .iconbtn { position: relative; width: 40px; height: 40px; border: 1px solid var(--border); background: var(--surface);
-    border-radius: 999px; display: grid; place-items: center; color: var(--text); cursor: pointer;
-    transition: background 0.25s var(--ease), border-color 0.25s var(--ease), transform 0.2s var(--ease); }
-  .iconbtn:hover { background: var(--surface-2); border-color: var(--border-strong); }
-  .iconbtn:active { transform: scale(0.94); }
-  .badge { position: absolute; top: 7px; right: 8px; width: 9px; height: 9px; border-radius: 50%;
-    background: var(--fix); border: 2px solid var(--nav-bg); display: none; }
+  .iconbtn { position: relative; width: 38px; height: 38px; border: 1px solid var(--border); background: transparent;
+    border-radius: var(--r-sm); display: grid; place-items: center; color: var(--text); cursor: pointer;
+    transition: background 0.2s var(--ease), border-color 0.2s var(--ease); }
+  .iconbtn:hover { background: var(--surface); border-color: var(--border-2); }
+  .badge { position: absolute; top: 6px; right: 7px; width: 8px; height: 8px; border-radius: 50%; background: var(--fix); border: 2px solid var(--nav-bg); display: none; }
   .badge.show { display: block; }
 
-  /* theme segmented control */
-  .theme-seg { display: flex; gap: 2px; padding: 3px; border: 1px solid var(--border); background: var(--surface); border-radius: 999px; }
-  .theme-seg button { width: 30px; height: 30px; border: none; background: none; color: var(--faint); border-radius: 999px;
-    display: grid; place-items: center; cursor: pointer; transition: color 0.2s var(--ease), background 0.2s var(--ease); }
+  .theme-seg { display: flex; gap: 2px; padding: 3px; border: 1px solid var(--border); border-radius: var(--r-sm); }
+  .theme-seg button { width: 28px; height: 28px; border: none; background: none; color: var(--faint); border-radius: 7px; display: grid; place-items: center; cursor: pointer; transition: color 0.2s var(--ease), background 0.2s var(--ease); }
   .theme-seg button:hover { color: var(--text); }
-  .theme-seg button[aria-pressed="true"] { background: var(--brand); color: #fff; }
+  .theme-seg button[aria-pressed="true"] { background: var(--primary); color: var(--primary-ink); }
 
-  .nav-cta { display: inline-flex; align-items: center; gap: 9px; background: var(--text); color: var(--bg);
-    font-weight: 600; font-size: 14px; padding: 9px 9px 9px 18px; border-radius: 999px; transition: transform 0.3s var(--ease); }
-  .nav-cta:hover { transform: translateY(-1px); }
-  .nav-cta .pip { width: 24px; height: 24px; border-radius: 50%; background: rgba(127,127,127,0.25); display: grid; place-items: center; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; font-weight: 600; font-size: 15px;
+    padding: 13px 22px; border-radius: var(--r-sm); cursor: pointer; border: 1px solid transparent; white-space: nowrap;
+    transition: transform 0.2s var(--ease), background 0.2s var(--ease), border-color 0.2s var(--ease), opacity 0.2s var(--ease); }
+  .btn.primary { background: var(--primary); color: var(--primary-ink); }
+  .btn.primary:hover { transform: translateY(-1px); opacity: 0.9; }
+  .btn.secondary { background: transparent; border-color: var(--border-2); color: var(--text); }
+  .btn.secondary:hover { background: var(--surface); transform: translateY(-1px); }
+  .btn.sm { padding: 9px 16px; font-size: 14px; }
+  .nav .btn.sm { padding: 9px 16px; }
+  @media (max-width: 880px) { .nav-links { display: none; } }
+  @media (max-width: 560px) { .nav .btn .t { display: none; } }
 
-  @media (max-width: 860px) { .nav-links { display: none; } }
-  @media (max-width: 560px) { .nav-cta span.t { display: none; } .nav-cta { padding: 9px; } }
-
-  /* ---------- Popover (bell) ---------- */
-  .pop { position: fixed; top: 70px; right: max(16px, calc((100vw - var(--maxw)) / 2 + 16px));
-    width: 360px; max-width: calc(100vw - 32px); background: var(--solid); border: 1px solid var(--border);
-    border-radius: 18px; box-shadow: var(--shadow); z-index: 60; overflow: hidden;
-    opacity: 0; transform: translateY(-8px) scale(0.98); pointer-events: none; transform-origin: top right;
-    transition: opacity 0.2s var(--ease), transform 0.2s var(--ease); }
+  /* popover */
+  .pop { position: fixed; top: 66px; right: max(16px, calc((100vw - var(--maxw)) / 2 + 24px)); width: 360px; max-width: calc(100vw - 32px);
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--r); box-shadow: var(--shadow); z-index: 60; overflow: hidden;
+    opacity: 0; transform: translateY(-8px); pointer-events: none; transition: opacity 0.18s var(--ease), transform 0.18s var(--ease); }
   .pop.open { opacity: 1; transform: none; pointer-events: auto; }
-  .pop-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px 12px; }
-  .pop-head h3 { font-size: 15px; font-weight: 700; }
-  .pop-head a { font-size: 12px; color: var(--brand); font-weight: 600; }
-  .pop-list { max-height: 60vh; overflow-y: auto; padding: 0 8px 8px; }
-  .pop-item { display: block; padding: 12px 12px; border-radius: 12px; transition: background 0.2s var(--ease); }
+  .pop-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px 10px; border-bottom: 1px solid var(--border); }
+  .pop-head h3 { font-size: 14px; font-weight: 700; }
+  .pop-head a { font-size: 12px; color: var(--accent); font-weight: 600; }
+  .pop-list { max-height: 60vh; overflow-y: auto; padding: 6px; }
+  .pop-item { display: block; padding: 12px; border-radius: var(--r-sm); transition: background 0.18s var(--ease); }
   .pop-item:hover { background: var(--surface); }
-  .pop-item .top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-  .ver { font-family: "Geist Mono", monospace; font-size: 12px; font-weight: 600; color: var(--brand);
-    background: var(--brand-soft); padding: 2px 8px; border-radius: 999px; }
+  .pop-item .top { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+  .ver { font-family: "Geist Mono", monospace; font-size: 11px; font-weight: 600; color: var(--accent); background: var(--accent-soft); padding: 2px 8px; border-radius: 6px; }
   .pop-item .date { font-size: 11px; color: var(--faint); }
   .pop-item .ttl { font-size: 14px; font-weight: 600; }
-  .pop-item ul { margin: 6px 0 0; padding-left: 16px; }
-  .pop-item li { font-size: 12.5px; color: var(--muted); margin: 2px 0; }
+  .pop-item ul { margin: 6px 0 0; padding-left: 16px; } .pop-item li { font-size: 12.5px; color: var(--muted); margin: 2px 0; }
 
-  /* ---------- Sections ---------- */
+  /* ---------- Layout ---------- */
   main { padding-top: var(--nav-h); }
-  header.hero { padding: 96px 0 80px; }
-  .eyebrow { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--border);
-    border-radius: 999px; padding: 6px 14px; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
-    color: var(--muted); font-weight: 600; background: var(--surface); }
-  .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--feature); box-shadow: 0 0 10px var(--feature); }
-  h1 { font-size: clamp(40px, 7vw, 82px); font-weight: 700; line-height: 0.99; letter-spacing: -0.035em; margin: 24px 0 0; max-width: 15ch; }
-  .brand-grad { background: linear-gradient(115deg, var(--brand), #9a7bff); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .lede { margin-top: 22px; font-size: clamp(16px, 2vw, 20px); color: var(--muted); max-width: 54ch; }
-  .cta-row { margin-top: 34px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-  .btn { display: inline-flex; align-items: center; gap: 11px; font-weight: 600; font-size: 15px; padding: 13px 14px 13px 24px;
-    border-radius: 999px; cursor: pointer; transition: transform 0.3s var(--ease), border-color 0.25s var(--ease), background 0.25s var(--ease); border: 1px solid transparent; }
-  .btn.primary { background: linear-gradient(180deg, #7a86ff, var(--brand-2)); color: #fff; box-shadow: 0 10px 28px rgba(74,87,230,0.4); }
-  .btn.primary:hover { transform: translateY(-2px); }
-  .btn .pip { width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.18); display: grid; place-items: center; transition: transform 0.3s var(--ease); }
-  .btn.primary:hover .pip { transform: translate(3px,-1px); }
-  .btn.ghost { background: var(--surface); border-color: var(--border); color: var(--text); padding: 13px 22px; }
-  .btn.ghost:hover { border-color: var(--border-strong); transform: translateY(-2px); }
-  .meta { margin-top: 16px; font-size: 13px; color: var(--faint); }
+  section { padding: 104px 0; border-top: 1px solid var(--border); }
+  section.hero { border-top: none; padding: 92px 0 80px; }
+  .sec-head { max-width: 50ch; margin-bottom: 52px; }
+  .sec-head .eyebrow { margin-bottom: 20px; }
+  h1 { font-size: clamp(44px, 7.5vw, 86px); font-weight: 700; line-height: 0.97; letter-spacing: -0.04em; margin: 22px 0 0; max-width: 14ch; }
+  h2 { font-size: clamp(30px, 4.6vw, 52px); font-weight: 700; letter-spacing: -0.035em; line-height: 1.03; }
+  .accent { color: var(--accent); }
+  .lede { margin-top: 22px; font-size: clamp(17px, 2vw, 21px); color: var(--muted); max-width: 52ch; line-height: 1.5; }
+  .sec-head p { margin-top: 14px; color: var(--muted); font-size: 18px; }
 
+  .cta-row { margin-top: 34px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .note { margin-top: 16px; font-size: 13px; color: var(--faint); }
+
+  /* stat strip */
+  .stats { margin-top: 56px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
+  .stat { background: var(--bg); padding: 24px; }
+  .stat .n { font-size: 28px; font-weight: 700; letter-spacing: -0.03em; }
+  .stat .l { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  @media (max-width: 720px) { .stats { grid-template-columns: 1fr 1fr; } }
+
+  /* hero mockup */
   .stage { margin-top: 64px; display: flex; justify-content: center; }
-  .shell { padding: 8px; border-radius: 28px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow); }
-  .appwin { width: 360px; max-width: 84vw; border-radius: 21px; overflow: hidden;
-    background: linear-gradient(180deg, #1c1c26, #12121a); border: 1px solid rgba(255,255,255,0.07); }
-  .tbar { display: flex; gap: 8px; padding: 13px 15px 4px; }
-  .tl { width: 11px; height: 11px; border-radius: 50%; }
+  .shell { padding: 10px; border-radius: 22px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow); }
+  .appwin { width: 360px; max-width: 84vw; border-radius: 14px; overflow: hidden; background: linear-gradient(180deg, #1c1c26, #121219); border: 1px solid rgba(255,255,255,0.08); }
+  .tbar { display: flex; gap: 8px; padding: 13px 15px 4px; } .tl { width: 11px; height: 11px; border-radius: 50%; }
   .tl.r{background:#ff5f57}.tl.y{background:#febc2e}.tl.g{background:#28c840}
-  .awb { padding: 6px 16px 14px; color: #ededf2; }
-  .awb .g { font-size: 20px; font-weight: 700; } .awb .d { font-size: 11px; color: #8b8b9a; margin-top: 1px; }
-  .awb .addf { display: flex; align-items: center; gap: 9px; margin: 13px 0; padding: 10px 13px; background: rgba(255,255,255,0.06); border-radius: 10px; color: #6b7180; font-size: 13px; }
+  .awb { padding: 6px 16px 14px; color: #ededf2; } .awb .g { font-size: 20px; font-weight: 700; } .awb .d { font-size: 11px; color: #8b8b9a; margin-top: 1px; }
+  .awb .addf { display: flex; align-items: center; gap: 9px; margin: 13px 0; padding: 10px 13px; background: rgba(255,255,255,0.06); border-radius: 9px; color: #6b7180; font-size: 13px; }
   .awb .ml { display: flex; align-items: center; gap: 6px; font-size: 9px; font-weight: 800; letter-spacing: 0.06em; color: #ff5b6e; margin: 6px 2px; }
-  .awb .r { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; font-size: 13px; }
-  .awb .r.m { background: rgba(255,91,110,0.07); }
-  .awb .ring { width: 16px; height: 16px; border-radius: 50%; border: 1.6px solid #6b7180; }
-  .awb .r.m .ring { border-color: #ff5b6e; }
-  .awb .ring.dn { border: none; background: var(--brand); }
+  .awb .r { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 7px; font-size: 13px; } .awb .r.m { background: rgba(255,91,110,0.07); }
+  .awb .ring { width: 16px; height: 16px; border-radius: 50%; border: 1.6px solid #6b7180; } .awb .r.m .ring { border-color: #ff5b6e; } .awb .ring.dn { border: none; background: var(--accent); }
   .awb .r.dn .t { color: #6b7180; text-decoration: line-through; }
 
-  section { padding: 84px 0; }
-  .sec-head { max-width: 48ch; margin-bottom: 44px; }
-  .sec-head .eyebrow { margin-bottom: 18px; }
-  h2 { font-size: clamp(28px, 4.4vw, 46px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.06; }
-  .sec-head p { margin-top: 14px; color: var(--muted); font-size: 17px; }
+  /* steps */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .step .sn { font-family: "Geist Mono", monospace; font-size: 13px; color: var(--accent); }
+  .step h3 { font-size: 21px; font-weight: 700; letter-spacing: -0.02em; margin: 14px 0 8px; }
+  .step p { color: var(--muted); font-size: 15px; }
+  .step { padding-top: 22px; border-top: 2px solid var(--text); }
+  @media (max-width: 760px) { .steps { grid-template-columns: 1fr; gap: 14px; } }
 
-  .bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
-  .card { padding: 4px; border-radius: 24px; background: var(--surface); border: 1px solid var(--border);
-    transition: transform 0.4s var(--ease), border-color 0.3s var(--ease); }
-  .card:hover { transform: translateY(-4px); border-color: var(--border-strong); }
-  .card-in { height: 100%; border-radius: 20px; padding: 24px; background: var(--solid); display: flex; flex-direction: column; gap: 12px; }
-  .ico { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; color: var(--brand); background: var(--brand-soft); border: 1px solid var(--border); }
-  .card h3 { font-size: 18px; font-weight: 600; letter-spacing: -0.02em; }
-  .card p { color: var(--muted); font-size: 14px; line-height: 1.55; }
-  .c-wide { grid-column: span 4; } .c-third { grid-column: span 2; } .c-half { grid-column: span 3; }
-  .clockstrip { display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap; }
-  .tick { font-family: "Geist Mono", monospace; font-size: 11px; color: var(--faint); padding: 4px 8px; border-radius: 7px; background: var(--surface); border: 1px solid var(--border); }
-  .tick.on { color: #fff; background: var(--brand); border-color: var(--brand); }
-  @media (max-width: 880px) { .bento { grid-template-columns: 1fr; } .c-wide,.c-third,.c-half { grid-column: span 1; } }
+  /* features */
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); padding: 26px; transition: border-color 0.25s var(--ease), transform 0.25s var(--ease); }
+  .card:hover { border-color: var(--border-2); transform: translateY(-3px); }
+  .ico { width: 42px; height: 42px; border-radius: 11px; display: grid; place-items: center; color: var(--accent); background: var(--accent-soft); margin-bottom: 16px; }
+  .card h3 { font-size: 18px; font-weight: 600; letter-spacing: -0.02em; } .card p { color: var(--muted); font-size: 14.5px; margin-top: 8px; line-height: 1.55; }
+  .clockstrip { display: flex; gap: 6px; margin-top: 14px; flex-wrap: wrap; }
+  .tick { font-family: "Geist Mono", monospace; font-size: 11px; color: var(--faint); padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border); }
+  .tick.on { color: var(--primary-ink); background: var(--primary); border-color: var(--primary); }
+  @media (max-width: 880px) { .grid3 { grid-template-columns: 1fr; } }
 
-  /* platforms */
-  .plat { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-  .pcard { padding: 22px; border-radius: 20px; background: var(--solid); border: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px;
-    transition: transform 0.4s var(--ease), border-color 0.3s var(--ease); }
-  .pcard:hover { transform: translateY(-4px); border-color: var(--border-strong); }
-  .pcard .pi { color: var(--text); margin-bottom: 4px; }
-  .pcard h3 { font-size: 17px; font-weight: 600; }
-  .pcard p { font-size: 13px; color: var(--muted); flex: 1; }
-  .pcard .dls { margin-top: 10px; display: flex; flex-direction: column; gap: 7px; }
-  .pcard a.dl { display: inline-flex; align-items: baseline; gap: 6px; font-size: 13px; font-weight: 600; color: var(--brand); }
-  .pcard a.dl:hover { text-decoration: underline; }
-  .pcard a.dl .sz { color: var(--faint); font-weight: 500; font-size: 12px; }
-  .pcard .tag { font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--faint); }
-  @media (max-width: 880px) { .plat { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 480px) { .plat { grid-template-columns: 1fr; } }
+  /* download */
+  .plat { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .pcard { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); padding: 24px; display: flex; flex-direction: column; gap: 8px; transition: border-color 0.25s var(--ease), transform 0.25s var(--ease); }
+  .pcard:hover { border-color: var(--border-2); transform: translateY(-3px); }
+  .pcard .pi { color: var(--text); margin-bottom: 6px; } .pcard h3 { font-size: 17px; font-weight: 700; }
+  .pcard p { font-size: 13px; color: var(--muted); flex: 1; } .pcard .tag { font-family: "Geist Mono", monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
+  .dls { margin-top: 10px; display: flex; flex-direction: column; gap: 7px; }
+  a.dl { display: inline-flex; align-items: baseline; gap: 6px; font-size: 13.5px; font-weight: 600; color: var(--accent); } a.dl:hover { text-decoration: underline; }
+  a.dl .sz { color: var(--faint); font-weight: 500; font-size: 12px; }
+  @media (max-width: 880px) { .plat { grid-template-columns: 1fr 1fr; } } @media (max-width: 480px) { .plat { grid-template-columns: 1fr; } }
 
-  /* releases / changelog */
-  .timeline { position: relative; max-width: 760px; }
-  .rel { position: relative; padding: 0 0 30px 30px; border-left: 1px solid var(--border); }
-  .rel:last-child { border-left-color: transparent; padding-bottom: 0; }
-  .rel::before { content: ""; position: absolute; left: -7px; top: 4px; width: 13px; height: 13px; border-radius: 50%;
-    background: var(--brand); box-shadow: 0 0 0 4px var(--bg); }
-  .rel.latest::before { box-shadow: 0 0 0 4px var(--bg), 0 0 14px var(--brand); }
+  /* releases */
+  .timeline { max-width: 760px; }
+  .rel { position: relative; padding: 0 0 30px 28px; border-left: 1px solid var(--border); }
+  .rel:last-child { padding-bottom: 0; }
+  .rel::before { content: ""; position: absolute; left: -6px; top: 5px; width: 11px; height: 11px; border-radius: 3px; background: var(--accent); }
   .rel-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-  .rel-top .ttl { font-size: 19px; font-weight: 700; letter-spacing: -0.02em; }
-  .rel-top .date { font-size: 12px; color: var(--faint); }
-  .latest-pill { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--brand); background: var(--brand-soft); padding: 3px 8px; border-radius: 999px; }
+  .rel-top .ttl { font-size: 19px; font-weight: 700; letter-spacing: -0.02em; } .rel-top .date { font-size: 12px; color: var(--faint); }
+  .latest-pill { font-family: "Geist Mono", monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); background: var(--accent-soft); padding: 3px 8px; border-radius: 6px; }
   .rel ul { list-style: none; margin: 14px 0 6px; display: flex; flex-direction: column; gap: 9px; }
-  .rel li { display: flex; align-items: flex-start; gap: 10px; font-size: 14.5px; color: var(--text); }
-  .pill { flex: none; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 2px 8px; border-radius: 999px; margin-top: 2px; }
-  .pill.feature { color: var(--feature); background: color-mix(in srgb, var(--feature) 16%, transparent); }
-  .pill.improvement { color: var(--improve); background: color-mix(in srgb, var(--improve) 16%, transparent); }
-  .pill.fix { color: var(--fix); background: color-mix(in srgb, var(--fix) 16%, transparent); }
-  .rel .links { margin-top: 12px; display: flex; gap: 14px; }
-  .rel .links a { font-size: 13px; font-weight: 600; color: var(--brand); }
+  .rel li { display: flex; align-items: flex-start; gap: 10px; font-size: 14.5px; }
+  .pill { flex: none; font-family: "Geist Mono", monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.03em; padding: 2px 7px; border-radius: 5px; margin-top: 2px; }
+  .pill.feature { color: var(--feature); background: color-mix(in srgb, var(--feature) 12%, transparent); }
+  .pill.improvement { color: var(--improvement); background: color-mix(in srgb, var(--improvement) 12%, transparent); }
+  .pill.fix { color: var(--fix); background: color-mix(in srgb, var(--fix) 12%, transparent); }
+  .rel .links { margin-top: 12px; } .rel .links a { font-size: 13px; font-weight: 600; color: var(--accent); }
 
-  /* CTA band + footer */
-  .band { padding: 6px; border-radius: 30px; background: var(--surface); border: 1px solid var(--border); }
-  .band-in { border-radius: 24px; padding: 64px 28px; text-align: center; background: radial-gradient(120% 140% at 50% 0%, var(--brand-soft), transparent 62%); }
-  .band-in h2 { margin: 0 auto; max-width: 18ch; } .band-in p { color: var(--muted); margin: 14px auto 26px; max-width: 46ch; }
-  .band-in .cta-row { justify-content: center; }
-  footer { border-top: 1px solid var(--border); padding: 36px 0 56px; color: var(--faint); font-size: 13px; }
+  /* FAQ */
+  .faq { max-width: 760px; }
+  .faq details { border-bottom: 1px solid var(--border); padding: 4px 0; }
+  .faq summary { list-style: none; cursor: pointer; padding: 20px 0; font-size: 18px; font-weight: 600; letter-spacing: -0.02em; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary .plus { flex: none; width: 22px; height: 22px; position: relative; transition: transform 0.3s var(--ease); }
+  .faq summary .plus::before, .faq summary .plus::after { content: ""; position: absolute; background: var(--muted); border-radius: 2px; }
+  .faq summary .plus::before { top: 10px; left: 2px; right: 2px; height: 2px; }
+  .faq summary .plus::after { left: 10px; top: 2px; bottom: 2px; width: 2px; transition: opacity 0.3s var(--ease); }
+  .faq details[open] summary .plus::after { opacity: 0; }
+  .faq p { color: var(--muted); font-size: 15.5px; line-height: 1.6; padding: 0 0 22px; max-width: 64ch; }
+
+  /* final CTA */
+  .band { background: var(--primary); color: var(--primary-ink); border-radius: 22px; padding: 72px 32px; text-align: center; }
+  .band h2 { color: var(--primary-ink); margin: 0 auto; max-width: 18ch; }
+  .band p { opacity: 0.7; margin: 14px auto 28px; max-width: 44ch; font-size: 17px; }
+  .band .btn.primary { background: var(--bg); color: var(--text); }
+  .band .btn.secondary { border-color: color-mix(in srgb, var(--primary-ink) 30%, transparent); color: var(--primary-ink); }
+  .band .cta-row { justify-content: center; }
+
+  footer { border-top: 1px solid var(--border); padding: 40px 0 60px; color: var(--faint); font-size: 13px; }
   .foot-row { display: flex; justify-content: space-between; align-items: center; gap: 18px; flex-wrap: wrap; }
-  .foot-row .brand { color: var(--muted); }
-  .foot-links { display: flex; gap: 20px; } .foot-links a:hover { color: var(--text); }
+  .foot-row .brand { color: var(--muted); } .foot-links { display: flex; gap: 20px; } .foot-links a:hover { color: var(--text); }
 
-  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); }
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
   .reveal.in { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<div class="orbs"><div class="orb a"></div><div class="orb b"></div></div>
 
 <nav aria-label="Primary">
-  <div class="nav-pill">
+  <div class="nav-in">
     <a class="brand" href="#top"><img src="/assets/icon.png" alt="" /> Today</a>
     <div class="nav-links">
+      <a href="#how">How it works</a>
       <a href="#features">Features</a>
-      <a href="#platforms">Download</a>
+      <a href="#download">Download</a>
       <a href="#releases">Releases</a>
-      <a href="/app/">Web app</a>
     </div>
     <div class="nav-right">
       <button class="iconbtn" id="bell" aria-label="What's new" aria-haspopup="dialog" aria-expanded="false">
@@ -294,46 +260,39 @@
         <span class="badge" id="bell-badge"></span>
       </button>
       <div class="theme-seg" role="group" aria-label="Theme">
-        <button data-theme-pick="light" aria-label="Light theme" aria-pressed="false" title="Light">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
-        </button>
-        <button data-theme-pick="system" aria-label="System theme" aria-pressed="false" title="System">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-        </button>
-        <button data-theme-pick="dark" aria-label="Dark theme" aria-pressed="false" title="Dark">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
-        </button>
+        <button data-theme-pick="light" aria-label="Light theme" aria-pressed="false" title="Light"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+        <button data-theme-pick="system" aria-label="System theme" aria-pressed="false" title="System"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
+        <button data-theme-pick="dark" aria-label="Dark theme" aria-pressed="false" title="Dark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg></button>
       </div>
-      <a class="nav-cta" href="#platforms"><span class="t">Get Today</span>
-        <span class="pip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0 5-5m-5 5-5-5"/><path d="M5 20h14"/></svg></span>
-      </a>
+      <a class="btn primary sm" href="#download"><span class="t">Get Today</span></a>
     </div>
   </div>
 </nav>
 
-<!-- What's new popover -->
-<div class="pop" id="pop" role="dialog" aria-label="What's new" aria-modal="false">
-  <div class="pop-head">
-    <h3>What's new</h3>
-    <a href="#releases" id="pop-all">All releases →</a>
-  </div>
+<div class="pop" id="pop" role="dialog" aria-label="What's new">
+  <div class="pop-head"><h3>What's new</h3><a href="#releases" id="pop-all">All releases →</a></div>
   <div class="pop-list" id="pop-list"></div>
 </div>
 
 <a id="top"></a>
 <main id="main">
-  <header class="hero">
+  <section class="hero">
     <div class="wrap">
-      <span class="eyebrow reveal"><span class="dot"></span> macOS · Windows · Android · Web</span>
-      <h1 class="reveal">The to-do list you <span class="brand-grad">can't ignore.</span></h1>
-      <p class="lede reveal">Today floats on top of every window, opens itself on a schedule, and reads out what's still pending — so the things that matter actually get done, not buried. Now on every platform you use.</p>
+      <span class="eyebrow reveal"><b>[00]</b> macOS · Windows · Android · Web</span>
+      <h1 class="reveal">The to-do list you <span class="accent">can't ignore.</span></h1>
+      <p class="lede reveal">It floats on top of every window, opens itself on a schedule, and reads out what's still pending — so the things that matter actually get done, not buried. On every platform you use.</p>
       <div class="cta-row reveal">
-        <a class="btn primary" href="#platforms">Get Today
-          <span class="pip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0 5-5m-5 5-5-5"/><path d="M5 20h14"/></svg></span>
-        </a>
-        <a class="btn ghost" href="/app/">Open web app</a>
+        <a class="btn primary" href="#download">Get Today — it's free</a>
+        <a class="btn secondary" href="/app/">Open the web app</a>
       </div>
-      <p class="meta reveal">Free · open source · no account</p>
+      <p class="note reveal">No account. No fees. Open source.</p>
+
+      <div class="stats reveal">
+        <div class="stat"><div class="n">4</div><div class="l">platforms</div></div>
+        <div class="stat"><div class="n">~450 KB</div><div class="l">native app size</div></div>
+        <div class="stat"><div class="n">0</div><div class="l">accounts or trackers</div></div>
+        <div class="stat"><div class="n">100%</div><div class="l">open source</div></div>
+      </div>
 
       <div class="stage reveal">
         <div class="shell">
@@ -341,7 +300,7 @@
             <div class="tbar"><span class="tl r"></span><span class="tl y"></span><span class="tl g"></span></div>
             <div class="awb">
               <div class="g">Good afternoon</div><div class="d">Friday, Jun 19</div>
-              <div class="addf"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6a78ff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg> Add a task…</div>
+              <div class="addf"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b88ff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg> Add a task…</div>
               <div class="ml"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg> MUST DO TODAY</div>
               <div class="r m dn"><span class="ring dn"></span><span class="t">Take morning meds</span></div>
               <div class="r m"><span class="ring"></span><span class="t">30 min focused writing</span></div>
@@ -352,124 +311,98 @@
         </div>
       </div>
     </div>
-  </header>
+  </section>
 
-  <section id="features">
+  <section id="how">
     <div class="wrap">
-      <div class="sec-head reveal">
-        <span class="eyebrow">Why it works</span>
-        <h2>Reminders are easy to dismiss. This one shows up and won't leave.</h2>
-        <p>A few deliberate design choices turn a to-do list into something you actually act on.</p>
-      </div>
-      <div class="bento">
-        <div class="card c-wide reveal"><div class="card-in">
-          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="m3 13 9 5 9-5"/><path d="m3 18 9 5 9-5"/></svg></div>
-          <h3>Always on top — over everything</h3>
-          <p>The window floats above every app, including other apps in full-screen, and follows you across Spaces. The one thing on your screen you can't scroll past. (Native macOS &amp; Windows.)</p>
-        </div></div>
-        <div class="card c-third reveal"><div class="card-in">
-          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
-          <h3>Opens on schedule</h3>
-          <p>Hourly by default — add custom times, toggle any on or off.</p>
-          <div class="clockstrip"><span class="tick on">9:00</span><span class="tick">10:00</span><span class="tick on">13:00</span><span class="tick on">21:00</span></div>
-        </div></div>
-        <div class="card c-third reveal"><div class="card-in">
-          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M19 6a8 8 0 0 1 0 12"/></svg></div>
-          <h3>It speaks up</h3>
-          <p>A voice tells you exactly how many tasks are still pending when it appears.</p>
-        </div></div>
-        <div class="card c-third reveal"><div class="card-in">
-          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
-          <h3>Must-do, every day</h3>
-          <p>Locked daily tasks reset each morning. Closing only snoozes them until they're done.</p>
-        </div></div>
-        <div class="card c-half reveal"><div class="card-in">
-          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></svg></div>
-          <h3>Native &amp; featherweight</h3>
-          <p>Around 450&nbsp;KB on macOS. No Electron, no background bloat, no sign-in — your tasks live in a plain file on your device.</p>
-        </div></div>
-        <div class="card c-half reveal"><div class="card-in">
-          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6"/><path d="m16 6 6 6-6 6"/></svg></div>
-          <h3>Open source</h3>
-          <p>Every line is on GitHub. Read it, tweak the schedule, restyle it, and rebuild in one command.</p>
-        </div></div>
+      <div class="sec-head reveal"><span class="eyebrow"><b>[01]</b> How it works</span>
+        <h2>Three steps. Then it does the remembering.</h2></div>
+      <div class="steps">
+        <div class="step reveal"><div class="sn">01</div><h3>Add what matters</h3><p>Jot a task, or lock in a must-do you have to finish every single day.</p></div>
+        <div class="step reveal"><div class="sn">02</div><h3>It shows up</h3><p>On your schedule, the window floats to the front and reads out how many tasks are left.</p></div>
+        <div class="step reveal"><div class="sn">03</div><h3>You can't ignore it</h3><p>Must-do tasks won't dismiss — closing only snoozes them until they're actually done.</p></div>
       </div>
     </div>
   </section>
 
-  <section id="platforms">
+  <section id="features">
     <div class="wrap">
-      <div class="sec-head reveal">
-        <span class="eyebrow">Get it</span>
-        <h2>One to-do, every device.</h2>
-        <p>Native where it can float and self-launch; an installable web app everywhere else.</p>
+      <div class="sec-head reveal"><span class="eyebrow"><b>[02]</b> Why it works</span>
+        <h2>Reminders are easy to dismiss. This one won't leave.</h2>
+        <p>A few deliberate choices turn a to-do list into something you actually act on.</p></div>
+      <div class="grid3">
+        <div class="card reveal"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="m3 13 9 5 9-5"/><path d="m3 18 9 5 9-5"/></svg></div><h3>Always on top</h3><p>Floats above every app, including full-screen, across Spaces. Native on macOS &amp; Windows.</p></div>
+        <div class="card reveal"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><h3>Opens on schedule</h3><p>Hourly by default — add custom times and toggle any on or off.</p><div class="clockstrip"><span class="tick on">9:00</span><span class="tick">10:00</span><span class="tick on">13:00</span><span class="tick on">21:00</span></div></div>
+        <div class="card reveal"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M19 6a8 8 0 0 1 0 12"/></svg></div><h3>It speaks up</h3><p>A voice tells you exactly how many tasks are still pending when it appears.</p></div>
+        <div class="card reveal"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div><h3>Must-do, every day</h3><p>Locked daily tasks reset each morning. Closing only snoozes them until they're done.</p></div>
+        <div class="card reveal"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></svg></div><h3>Native &amp; featherweight</h3><p>~450&nbsp;KB on macOS. No Electron, no background bloat, no sign-in.</p></div>
+        <div class="card reveal"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6"/><path d="m16 6 6 6-6 6"/></svg></div><h3>Open source</h3><p>Every line is on GitHub. Read it, tweak the schedule, rebuild in one command.</p></div>
       </div>
+    </div>
+  </section>
+
+  <section id="download">
+    <div class="wrap">
+      <div class="sec-head reveal"><span class="eyebrow"><b>[03]</b> Download</span>
+        <h2>One to-do, every device.</h2>
+        <p>Native where it can float and self-launch; an installable web app everywhere else.</p></div>
       <div class="plat">
         <div class="pcard reveal">
           <div class="pi"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.7c0-2 1.6-3 1.7-3.05-1-1.4-2.4-1.6-2.9-1.6-1.2-.12-2.4.72-3 .72-.6 0-1.6-.7-2.6-.68-1.3.02-2.6.78-3.3 1.96-1.4 2.45-.36 6.07 1 8.06.66.97 1.45 2.06 2.48 2.02 1-.04 1.37-.64 2.58-.64 1.2 0 1.54.64 2.6.62 1.07-.02 1.75-.99 2.4-1.97.76-1.12 1.07-2.2 1.08-2.26-.02-.01-2.07-.8-2.1-3.16zM14.5 6.2c.54-.66.9-1.57.8-2.48-.78.03-1.72.52-2.28 1.17-.5.58-.94 1.5-.82 2.39.87.07 1.76-.44 2.3-1.08z"/></svg></div>
-          <span class="tag">Native</span>
-          <h3>macOS</h3>
-          <p>13+. Always-on-top, launchd schedule, voice.</p>
-          <div class="dls">
-            <a class="dl" id="dl-mac" href="https://github.com/rakibulism/FloatingTodo/releases/latest/download/Today-macOS.zip">Download .zip <span class="sz">· 446 KB</span></a>
-          </div>
+          <span class="tag">Native</span><h3>macOS</h3><p>13+. Always-on-top, launchd schedule, voice.</p>
+          <div class="dls"><a class="dl" id="dl-mac" href="https://github.com/rakibulism/FloatingTodo/releases/latest/download/Today-macOS.zip">Download .zip <span class="sz">· 446 KB</span></a></div>
         </div>
         <div class="pcard reveal">
           <div class="pi"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5 10.5 4.5v7H3zM10.5 12.5v7L3 18.5V12.5zM11.5 4.4 21 3v8.5h-9.5zM21 12.5V21l-9.5-1.4V12.5z"/></svg></div>
-          <span class="tag">Native</span>
-          <h3>Windows</h3>
-          <p>Always-on-top, Task Scheduler. Built in CI.</p>
-          <div class="dls">
-            <a class="dl" id="dl-win-msi" href="https://github.com/rakibulism/FloatingTodo/releases/latest/download/Today_1.0.0_x64_en-US.msi">Download .msi <span class="sz">· 2.8 MB</span></a>
-            <a class="dl" id="dl-win-exe" href="https://github.com/rakibulism/FloatingTodo/releases/latest/download/Today_1.0.0_x64-setup.exe">.exe setup <span class="sz">· 1.9 MB</span></a>
-          </div>
+          <span class="tag">Native</span><h3>Windows</h3><p>Always-on-top, Task Scheduler. Built in CI.</p>
+          <div class="dls"><a class="dl" id="dl-win-msi" href="https://github.com/rakibulism/FloatingTodo/releases/latest/download/Today_1.0.0_x64_en-US.msi">Download .msi <span class="sz">· 2.8 MB</span></a><a class="dl" id="dl-win-exe" href="https://github.com/rakibulism/FloatingTodo/releases/latest/download/Today_1.0.0_x64-setup.exe">.exe setup <span class="sz">· 1.9 MB</span></a></div>
         </div>
         <div class="pcard reveal">
           <div class="pi"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M6 9h12v8a2 2 0 0 1-2 2h-1v2.5h-2V19h-2v2.5H9V19H8a2 2 0 0 1-2-2zM4 9.5a1.2 1.2 0 0 1 2.4 0V15A1.2 1.2 0 0 1 4 15zm13.6 0a1.2 1.2 0 0 1 2.4 0V15a1.2 1.2 0 0 1-2.4 0zM7.5 8c.3-1.8 1.4-3.3 3-4.1l-.9-1.6.7-.4.95 1.7a5.7 5.7 0 0 1 3.5 0l.95-1.7.7.4-.9 1.6c1.6.8 2.7 2.3 3 4.1z"/></svg></div>
-          <span class="tag">Native</span>
-          <h3>Android</h3>
-          <p>Scheduled reminders. APK built in CI.</p>
-          <div class="dls">
-            <a class="dl" id="dl-apk" href="https://github.com/rakibulism/FloatingTodo/releases/latest/download/app-debug.apk">Download .apk <span class="sz">· 3.8 MB</span></a>
-          </div>
+          <span class="tag">Native</span><h3>Android</h3><p>Scheduled reminders. APK built in CI.</p>
+          <div class="dls"><a class="dl" id="dl-apk" href="https://github.com/rakibulism/FloatingTodo/releases/latest/download/app-debug.apk">Download .apk <span class="sz">· 3.8 MB</span></a></div>
         </div>
         <div class="pcard reveal">
           <div class="pi"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div>
-          <span class="tag">Installable</span>
-          <h3>Web app</h3>
-          <p>Offline PWA. Add to home screen or dock.</p>
-          <div class="dls">
-            <a class="dl" href="/app/">Open web app <span class="sz">· no install</span></a>
-          </div>
+          <span class="tag">Installable</span><h3>Web app</h3><p>Offline PWA. Add to home screen or dock.</p>
+          <div class="dls"><a class="dl" href="/app/">Open web app <span class="sz">· no install</span></a></div>
         </div>
       </div>
-      <p class="meta reveal" style="margin-top:18px">macOS first launch: right-click → Open → Open once (it's ad-hoc signed). All downloads on the <a href="https://github.com/rakibulism/FloatingTodo/releases/latest" style="color:var(--brand);font-weight:600">latest release</a>.</p>
+      <p class="note reveal">macOS first launch: right-click → Open → Open once (ad-hoc signed). All files on the <a href="https://github.com/rakibulism/FloatingTodo/releases/latest" style="color:var(--accent);font-weight:600">latest release</a>.</p>
     </div>
   </section>
 
   <section id="releases">
     <div class="wrap">
-      <div class="sec-head reveal">
-        <span class="eyebrow">Changelog</span>
+      <div class="sec-head reveal"><span class="eyebrow"><b>[04]</b> Changelog</span>
         <h2>Releases &amp; updates</h2>
-        <p>What's shipped, and when. Subscribe via the bell to spot new versions at a glance.</p>
-      </div>
+        <p>What's shipped, and when. Tap the bell to spot new versions at a glance.</p></div>
       <div class="timeline" id="timeline"></div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <div class="sec-head reveal"><span class="eyebrow"><b>[05]</b> FAQ</span><h2>Good questions.</h2></div>
+      <div class="faq">
+        <details class="reveal"><summary>Is it really free?<span class="plus"></span></summary><p>Yes. Today is free and open source — no account, no subscription, no trackers. Read every line on GitHub.</p></details>
+        <details class="reveal"><summary>Does it work offline?<span class="plus"></span></summary><p>Completely. The native apps and the installable web app store your tasks locally on your device — there's no server and nothing to sign in to.</p></details>
+        <details class="reveal"><summary>Why can't the web version float on top?<span class="plus"></span></summary><p>Browsers can't draw over other apps or launch themselves on a schedule — that's an OS limitation. So the web app is a clean, installable to-do list and uses notifications; the floating-on-top behavior lives in the native macOS &amp; Windows apps.</p></details>
+        <details class="reveal"><summary>How do the scheduled reminders work?<span class="plus"></span></summary><p>Each platform uses its native scheduler: launchd on macOS, Task Scheduler on Windows, and scheduled notifications on Android. You pick the times in Settings.</p></details>
+      </div>
     </div>
   </section>
 
   <section>
     <div class="wrap">
-      <div class="band reveal"><div class="band-in">
+      <div class="band reveal">
         <h2>Put it on top. Get it done.</h2>
         <p>Download the native app, install the web app, or read every line on GitHub.</p>
         <div class="cta-row">
-          <a class="btn primary" href="#platforms">Choose your platform
-            <span class="pip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-          </a>
-          <a class="btn ghost" href="https://github.com/rakibulism/FloatingTodo" target="_blank" rel="noopener">View on GitHub</a>
+          <a class="btn primary" href="#download">Choose your platform</a>
+          <a class="btn secondary" href="https://github.com/rakibulism/FloatingTodo" target="_blank" rel="noopener">View on GitHub</a>
         </div>
-      </div></div>
+      </div>
     </div>
   </section>
 </main>
@@ -477,144 +410,85 @@
 <footer>
   <div class="wrap foot-row">
     <a class="brand" href="#top"><img src="/assets/favicon.png" alt="" style="width:22px;height:22px;border-radius:6px" /> Today</a>
-    <div class="foot-links">
-      <a href="#features">Features</a>
-      <a href="#releases">Releases</a>
-      <a href="https://github.com/rakibulism/FloatingTodo" target="_blank" rel="noopener">GitHub</a>
-      <a href="/app/">Web app</a>
-    </div>
+    <div class="foot-links"><a href="#how">How it works</a><a href="#download">Download</a><a href="#releases">Releases</a><a href="https://github.com/rakibulism/FloatingTodo" target="_blank" rel="noopener">GitHub</a></div>
     <span>macOS · Windows · Android · Web · © 2026</span>
   </div>
 </footer>
 
-<!-- Release data: edit this when you publish a version. The changelog section and
-     the bell both render from it; the bell badges the newest unseen version. -->
 <script type="application/json" id="releases-data">
 [
-  {
-    "version": "v2",
-    "date": "2026-06-19",
-    "title": "Cross-platform — Windows, Android & Web",
-    "url": "https://github.com/rakibulism/FloatingTodo/releases/tag/v2",
+  { "version": "v2", "date": "2026-06-19", "title": "Cross-platform — Windows, Android & Web", "url": "https://github.com/rakibulism/FloatingTodo/releases/tag/v2",
     "highlights": [
       { "type": "feature", "text": "Native Windows app (.msi / .exe), compiled in CI" },
       { "type": "feature", "text": "Android app (.apk) with scheduled reminders" },
       { "type": "feature", "text": "Installable web PWA — offline & add-to-home-screen" },
-      { "type": "improvement", "text": "Monorepo with one shared UI across web, Windows & Android" }
-    ]
-  },
-  {
-    "version": "v1.0",
-    "date": "2026-06-19",
-    "title": "macOS launch",
-    "url": "https://github.com/rakibulism/FloatingTodo/releases/tag/v1.0",
+      { "type": "improvement", "text": "Monorepo with one shared UI across web, Windows & Android" } ] },
+  { "version": "v1.0", "date": "2026-06-19", "title": "macOS launch", "url": "https://github.com/rakibulism/FloatingTodo/releases/tag/v1.0",
     "highlights": [
       { "type": "feature", "text": "Always-on-top floating window over every app, even full-screen" },
       { "type": "feature", "text": "Hourly auto-open with custom, toggleable times" },
       { "type": "feature", "text": "Spoken pending count + must-do daily tasks" },
-      { "type": "improvement", "text": "Configurable snooze, standard shortcuts, custom app icon" }
-    ]
-  }
+      { "type": "improvement", "text": "Configurable snooze, standard shortcuts, custom app icon" } ] }
 ]
 </script>
 
 <script>
-  // ---------- Theme (light / system / dark) ----------
+  // ---------- Theme ----------
   const META = document.getElementById("meta-theme");
-  const BG = { dark: "#06070a", light: "#f6f7fb" };
+  const BG = { dark: "#0a0a0c", light: "#ffffff" };
   const mq = matchMedia("(prefers-color-scheme: dark)");
-
-  function effective(pref) { return pref === "system" ? (mq.matches ? "dark" : "light") : pref; }
+  const effective = (p) => (p === "system" ? (mq.matches ? "dark" : "light") : p);
   function applyTheme(pref) {
     const eff = effective(pref);
     document.documentElement.setAttribute("data-theme", eff);
     document.documentElement.style.colorScheme = eff;
     META.setAttribute("content", BG[eff]);
-    document.querySelectorAll("[data-theme-pick]").forEach((b) =>
-      b.setAttribute("aria-pressed", String(b.dataset.themePick === pref)));
+    document.querySelectorAll("[data-theme-pick]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.themePick === pref)));
   }
   let themePref = localStorage.getItem("theme") || "system";
   applyTheme(themePref);
-  document.querySelectorAll("[data-theme-pick]").forEach((b) =>
-    b.addEventListener("click", () => {
-      themePref = b.dataset.themePick; localStorage.setItem("theme", themePref); applyTheme(themePref);
-    }));
+  document.querySelectorAll("[data-theme-pick]").forEach((b) => b.addEventListener("click", () => { themePref = b.dataset.themePick; localStorage.setItem("theme", themePref); applyTheme(themePref); }));
   mq.addEventListener("change", () => { if (themePref === "system") applyTheme("system"); });
 
   // ---------- Releases + bell ----------
   const releases = JSON.parse(document.getElementById("releases-data").textContent);
   const fmtDate = (s) => new Date(s + "T00:00:00").toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
   const esc = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
-  const liItems = (hl) => hl.map((h) => `<li><span class="pill ${h.type}">${h.type}</span><span>${esc(h.text)}</span></li>`).join("");
-
-  // changelog timeline
   document.getElementById("timeline").innerHTML = releases.map((r, i) => `
-    <div class="rel reveal ${i === 0 ? "latest" : ""}">
-      <div class="rel-top">
-        <span class="ttl">${esc(r.title)}</span>
-        <span class="ver">${esc(r.version)}</span>
-        ${i === 0 ? '<span class="latest-pill">Latest</span>' : ""}
-        <span class="date">${fmtDate(r.date)}</span>
-      </div>
-      <ul>${liItems(r.highlights)}</ul>
+    <div class="rel reveal">
+      <div class="rel-top"><span class="ttl">${esc(r.title)}</span><span class="ver">${esc(r.version)}</span>${i === 0 ? '<span class="latest-pill">Latest</span>' : ""}<span class="date">${fmtDate(r.date)}</span></div>
+      <ul>${r.highlights.map((h) => `<li><span class="pill ${h.type}">${h.type}</span><span>${esc(h.text)}</span></li>`).join("")}</ul>
       <div class="links"><a href="${r.url}" target="_blank" rel="noopener">Release notes ↗</a></div>
     </div>`).join("");
-
-  // bell popover
   document.getElementById("pop-list").innerHTML = releases.slice(0, 4).map((r) => `
     <a class="pop-item" href="${r.url}" target="_blank" rel="noopener">
       <div class="top"><span class="ver">${esc(r.version)}</span><span class="date">${fmtDate(r.date)}</span></div>
       <div class="ttl">${esc(r.title)}</div>
-      <ul>${r.highlights.slice(0, 3).map((h) => `<li>${esc(h.text)}</li>`).join("")}</ul>
-    </a>`).join("");
+      <ul>${r.highlights.slice(0, 3).map((h) => `<li>${esc(h.text)}</li>`).join("")}</ul></a>`).join("");
 
-  const latest = releases[0].version;
-  const seen = localStorage.getItem("lastSeenRelease");
-  const badge = document.getElementById("bell-badge");
+  const latest = releases[0].version, seen = localStorage.getItem("lastSeenRelease"), badge = document.getElementById("bell-badge");
   if (seen !== latest) badge.classList.add("show");
-
-  const bell = document.getElementById("bell");
-  const pop = document.getElementById("pop");
-  function openPop() {
-    pop.classList.add("open"); bell.setAttribute("aria-expanded", "true");
-    badge.classList.remove("show"); localStorage.setItem("lastSeenRelease", latest);
-  }
-  function closePop() { pop.classList.remove("open"); bell.setAttribute("aria-expanded", "false"); }
+  const bell = document.getElementById("bell"), pop = document.getElementById("pop");
+  const openPop = () => { pop.classList.add("open"); bell.setAttribute("aria-expanded", "true"); badge.classList.remove("show"); localStorage.setItem("lastSeenRelease", latest); };
+  const closePop = () => { pop.classList.remove("open"); bell.setAttribute("aria-expanded", "false"); };
   bell.addEventListener("click", (e) => { e.stopPropagation(); pop.classList.contains("open") ? closePop() : openPop(); });
   document.addEventListener("click", (e) => { if (pop.classList.contains("open") && !pop.contains(e.target)) closePop(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closePop(); });
   document.getElementById("pop-all").addEventListener("click", closePop);
 
-  // ---------- Live downloads (resolve real asset URLs + sizes from the latest release) ----------
-  // Falls back silently to the static hrefs/sizes already in the markup.
-  (function loadDownloads() {
-    const fmtSize = (b) => (b >= 1048576 ? (b / 1048576).toFixed(1) + " MB" : Math.round(b / 1024) + " KB");
-    const apply = (id, asset) => {
-      const el = document.getElementById(id);
-      if (!el || !asset) return;
-      el.href = asset.browser_download_url;
-      const sz = el.querySelector(".sz");
-      if (sz) sz.textContent = "· " + fmtSize(asset.size);
-    };
-    fetch("https://api.github.com/repos/rakibulism/FloatingTodo/releases/latest", {
-      headers: { Accept: "application/vnd.github+json" },
-    })
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((rel) => {
-        const a = rel.assets || [];
-        const find = (re) => a.find((x) => re.test(x.name));
-        apply("dl-mac", find(/mac.*\.zip$/i) || find(/\.zip$/i));
-        apply("dl-win-msi", find(/\.msi$/i));
-        apply("dl-win-exe", find(/\.exe$/i));
-        apply("dl-apk", find(/\.apk$/i));
-      })
-      .catch(() => {});
+  // ---------- Live downloads ----------
+  (function () {
+    const fmt = (b) => (b >= 1048576 ? (b / 1048576).toFixed(1) + " MB" : Math.round(b / 1024) + " KB");
+    const apply = (id, a) => { const el = document.getElementById(id); if (!el || !a) return; el.href = a.browser_download_url; const s = el.querySelector(".sz"); if (s) s.textContent = "· " + fmt(a.size); };
+    fetch("https://api.github.com/repos/rakibulism/FloatingTodo/releases/latest", { headers: { Accept: "application/vnd.github+json" } })
+      .then((r) => (r.ok ? r.json() : Promise.reject())).then((rel) => {
+        const a = rel.assets || [], find = (re) => a.find((x) => re.test(x.name));
+        apply("dl-mac", find(/mac.*\.zip$/i) || find(/\.zip$/i)); apply("dl-win-msi", find(/\.msi$/i)); apply("dl-win-exe", find(/\.exe$/i)); apply("dl-apk", find(/\.apk$/i));
+      }).catch(() => {});
   })();
 
-  // ---------- Scroll reveal ----------
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
-  }, { threshold: 0.1, rootMargin: "0px 0px -6% 0px" });
+  // ---------- Reveal ----------
+  const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: 0.1, rootMargin: "0px 0px -5% 0px" });
   document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
 </script>
 </body>
