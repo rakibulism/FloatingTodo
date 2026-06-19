@@ -1,0 +1,54 @@
+name: Bug report
+description: Something isn't working as expected
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for filing a bug! Please search existing issues first to avoid duplicates.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the bug — and what you expected instead.
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - macOS (native)
+        - Windows
+        - Android
+        - Web / PWA
+        - Chrome extension
+        - Figma / FigJam plugin
+        - Figma / FigJam widget
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      placeholder: "e.g. v3, or a commit SHA"
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Go to '…'
+        2. Click '…'
+        3. See the problem
+  - type: input
+    id: env
+    attributes:
+      label: OS / browser version
+      placeholder: "e.g. macOS 14.5, Chrome 126, Android 14"
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and this isn't a duplicate
+          required: true
