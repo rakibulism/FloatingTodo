@@ -9,9 +9,13 @@ like the macOS app:
 - **Hourly re-open** — registers a Windows Scheduled Task (`TodayHourly`) on first run (see `src-tauri/src/main.rs`).
 - **Voice** — handled by the shared web UI (Web Speech API) on launch.
 
-> ⚠️ Built and tested on **macOS only** so far. The source is standard Tauri v2;
-> compile it **on Windows** (or cross-compile) to produce installers. The steps
-> below are the standard Tauri flow — not yet run in CI.
+> 💡 **No Windows machine? Use CI.** The
+> [`Windows build`](../../.github/workflows/windows-build.yml) GitHub Action
+> compiles the `.msi` + `.exe` on a `windows-latest` runner. Trigger it from the
+> **Actions** tab → *Windows build* → *Run workflow* (installers appear as
+> artifacts), or push a `v*` tag to also attach them to that GitHub Release.
+>
+> The steps below are for building locally on Windows.
 
 ## Prerequisites (on Windows)
 - [Rust](https://rustup.rs) and the MSVC build tools
