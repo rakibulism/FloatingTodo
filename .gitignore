@@ -1,4 +1,17 @@
+# macOS
 .DS_Store
+
+# build artifacts
 *.app
-build/
 *.zip
+build/
+
+# Rust / Tauri (Windows)
+target/
+apps/windows/src-tauri/target/
+apps/windows/src-tauri/gen/
+
+# Node / Capacitor (Android)
+node_modules/
+apps/android/android/
+apps/android/node_modules/

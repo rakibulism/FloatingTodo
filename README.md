@@ -1,73 +1,51 @@
-# Today — floating todo app
+# Today — a floating to-do, everywhere
 
-A tiny native macOS todo app that **always floats on top** of every window
-(including other apps' full-screen), **auto-opens on a schedule**, **speaks**
-how many tasks you have pending, and supports **must-do daily tasks**.
+A to-do app whose whole point is that **it shows up so you can't ignore it** —
+floating on top, opening itself on a schedule, reading out what's still pending,
+and enforcing must-do daily tasks.
 
-- **App:** `~/Applications/FloatingTodo.app` (shows as **“Today”**)
-- **Source:** `Sources/main.swift` (SwiftUI + AppKit)
-- **Data:** `~/Library/Application Support/FloatingTodo/`
-  - `todos.json` — regular tasks
-  - `mustdo.json` — daily must-do tasks
-  - `settings.json` — schedule + voice settings
-- **Schedule:** `~/Library/LaunchAgents/com.rakib.floatingtodo.plist`
-  (the app rewrites & reloads this itself whenever you change settings)
+This is a **monorepo**: one shared web UI powers the web, Windows, and Android
+targets, while macOS is its own polished native app.
 
-## Install
-
-### Option A — download the prebuilt app
-Grab `FloatingTodo.zip` from the [latest release](https://github.com/rakibulism/FloatingTodo/releases/latest),
-unzip it, and move `FloatingTodo.app` to `/Applications` (or anywhere).
-
-> **First launch:** the app is ad-hoc signed (not notarized), so macOS Gatekeeper
-> will block it the first time. Right-click the app → **Open** → **Open** to allow
-> it. You only need to do this once.
-
-### Option B — clone & build
-Requires macOS 13+ and the Swift toolchain (`xcode-select --install`).
-```bash
-git clone https://github.com/rakibulism/FloatingTodo.git
-cd FloatingTodo
-./build.sh
-open -a ~/Applications/FloatingTodo.app
 ```
-`build.sh` compiles the app into `~/Applications/FloatingTodo.app`. The app then
-installs/refreshes its own LaunchAgent on first launch, so the hourly schedule
-starts automatically.
-
-## Behavior
-- **Always on top** — overlays all windows and full-screen apps; follows you across Spaces.
-- **Auto-opens every hour** by default. Add your own **custom times**, toggle any
-  on/off, and turn hourly off — all from the in-app **Settings** (gear, top-right).
-- **Voice announcement** — when it opens on schedule, a male voice says how many
-  tasks are pending (and how many are must-do). Toggle in Settings.
-- **Must-do every day** — tasks in the locked red section reset each morning and
-  are meant to be finished daily. While any remain, the red close button only
-  **snoozes the app** (default 30 min, adjustable in Settings) and it reappears;
-  **⌘M minimize** stays allowed. Once all must-do's are done, closing is normal.
-- Manual opens don't speak; only scheduled (and snooze) opens do.
-
-## Keyboard shortcuts
-- **⌘W** — close (snoozes if must-do tasks remain, see above)
-- **⌘M** — minimize · **⌘Q** — quit
-- **⌘C / ⌘V / ⌘X / ⌘A** — standard editing in the text fields
-- If the Mac is asleep at a scheduled time, it opens on the next wake.
-
-## Rebuild after editing the source
-```bash
-./build.sh   # from the repo root
+.
+├── apps/
+│   ├── macos/      Native SwiftUI/AppKit app (always-on-top + launchd + voice)
+│   ├── web/        Marketing site + the installable PWA  (deployed on Vercel)
+│   │   ├── index.html        landing page
+│   │   └── app/              the installable PWA (shared web UI)
+│   ├── windows/    Tauri shell — wraps apps/web/app + always-on-top + autostart
+│   └── android/    Capacitor shell — wraps apps/web/app + scheduled notifications
+└── README.md
 ```
 
-## Turn auto-open off entirely (keep the app)
-In Settings, turn off "Every hour" and disable all custom times — or:
-```bash
-launchctl unload ~/Library/LaunchAgents/com.rakib.floatingtodo.plist
-```
+The **shared web UI** lives in [`apps/web/app`](apps/web/app); the Windows and
+Android shells point their frontend at it, so there's one codebase for the list,
+must-do logic, and settings.
 
-## Uninstall completely
-```bash
-launchctl unload ~/Library/LaunchAgents/com.rakib.floatingtodo.plist
-rm ~/Library/LaunchAgents/com.rakib.floatingtodo.plist
-rm -rf ~/Applications/FloatingTodo.app
-rm -rf ~/Library/Application\ Support/FloatingTodo
-```
+## <a id="platforms"></a>Platforms
+
+| Target | Always-on-top | Auto-open schedule | Voice | Reminders | Build |
+|---|---|---|---|---|---|
+| **macOS** | ✅ native window level | ✅ `launchd` | ✅ `AVSpeechSynthesizer` | — | `apps/macos` |
+| **Windows** | ✅ Tauri `alwaysOnTop` | ✅ Task Scheduler | via web | — | `apps/windows` |
+| **Android** | ⚠️ overlay (advanced) | — | via web | ✅ scheduled notifications | `apps/android` |
+| **Web (PWA)** | ❌ (browser limit) | ❌ (browser limit) | ✅ Web Speech | ⚠️ while open | `apps/web/app` |
+
+Web and iOS can't truly float or self-launch — that's an OS limitation, so the
+web target is a clean **installable PWA** (offline, add-to-home-screen) and uses
+notifications/voice instead of floating.
+
+## <a id="install"></a>Quick start per target
+
+- **macOS** — `cd apps/macos && ./build.sh` → `~/Applications/FloatingTodo.app`. Or grab the [release zip](https://github.com/rakibulism/FloatingTodo/releases/latest).
+- **Web** — open `apps/web/app/index.html` over HTTP (it's live on the deployed site at `/app/`), then use your browser's **Install** action.
+- **Windows** — `cd apps/windows && cargo tauri build` (see [apps/windows/README.md](apps/windows/README.md)).
+- **Android** — `cd apps/android && npm install && npx cap add android` (see [apps/android/README.md](apps/android/README.md)).
+
+## Deploying the site (Vercel)
+
+The deployable site is `apps/web`. In the Vercel project settings set
+**Root Directory → `apps/web`** (Framework preset: **Other**, no build command).
+Then `/` serves the landing page and `/app/` serves the installable PWA. Every
+push to `main` redeploys.

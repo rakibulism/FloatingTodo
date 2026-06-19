@@ -1,0 +1,17 @@
+[package]
+name = "today"
+version = "1.0.0"
+description = "Today — floating to-do for Windows"
+edition = "2021"
+rust-version = "1.77"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-autostart = "2"
+
+[[bin]]
+name = "today"
+path = "src/main.rs"

@@ -1,0 +1,126 @@
+:root {
+  --bg: #050507;
+  --ink: #ededf2;
+  --muted: #8b8b9a;
+  --faint: #5a5a68;
+  --line: rgba(255,255,255,0.08);
+  --line-2: rgba(255,255,255,0.04);
+  --glass: rgba(255,255,255,0.05);
+  --indigo: #6a78ff;
+  --indigo-2: #3b45e0;
+  --red: #ff5b6e;
+  --ease: cubic-bezier(0.32, 0.72, 0, 1);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: "Geist", system-ui, -apple-system, sans-serif;
+  background:
+    radial-gradient(620px 480px at 12% -8%, rgba(91,108,255,0.22), transparent 70%),
+    radial-gradient(520px 420px at 110% 0%, rgba(120,80,255,0.14), transparent 70%),
+    var(--bg);
+  background-attachment: fixed;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  display: flex; justify-content: center;
+}
+.app {
+  width: 100%; max-width: 440px; min-height: 100dvh;
+  display: flex; flex-direction: column;
+  padding: 0 18px;
+}
+button { font: inherit; color: inherit; cursor: pointer; border: none; background: none; }
+.icon-btn { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center;
+  color: var(--muted); transition: background 0.3s var(--ease), color 0.3s var(--ease); }
+.icon-btn:hover { background: var(--glass); color: var(--ink); }
+
+header { display: flex; align-items: flex-start; justify-content: space-between; padding: 30px 4px 16px; }
+.greet { font-size: 26px; font-weight: 700; letter-spacing: -0.025em; }
+.date { font-size: 13px; color: var(--muted); font-weight: 500; margin-top: 2px; }
+.head-actions { display: flex; gap: 4px; }
+
+.add {
+  display: flex; align-items: center; gap: 11px; margin-bottom: 14px;
+  padding: 13px 15px; border-radius: 13px;
+  background: var(--glass); border: 1px solid var(--line);
+  transition: border-color 0.3s var(--ease);
+}
+.add:focus-within { border-color: rgba(106,120,255,0.5); }
+.add svg { flex: none; color: var(--indigo); }
+.add input { flex: 1; background: none; border: none; outline: none; color: var(--ink); font-size: 15px; }
+.add input::placeholder { color: var(--faint); }
+
+.list { flex: 1; overflow-y: auto; padding-bottom: 12px; }
+.sect-label { display: flex; align-items: center; gap: 7px; font-size: 10px; font-weight: 800;
+  letter-spacing: 0.08em; color: var(--red); margin: 10px 4px 8px; }
+.pill-count { background: rgba(255,91,110,0.18); color: var(--red); font-size: 9px; font-weight: 700;
+  padding: 2px 7px; border-radius: 999px; }
+.sect-label.clear-row { color: var(--faint); justify-content: space-between; }
+
+.row { display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: 11px;
+  font-size: 15px; transition: background 0.2s var(--ease); }
+.row:hover { background: var(--glass); }
+.row.must { background: rgba(255,91,110,0.06); }
+.row .ring { width: 19px; height: 19px; border-radius: 50%; border: 1.7px solid var(--faint);
+  flex: none; cursor: pointer; transition: transform 0.2s var(--ease); display: grid; place-items: center; }
+.row .ring:active { transform: scale(0.88); }
+.row.must .ring { border-color: var(--red); }
+.row .ring.done { border: none; background: var(--indigo); }
+.row .ring svg { width: 12px; height: 12px; opacity: 0; }
+.row .ring.done svg { opacity: 1; }
+.row .title { flex: 1; }
+.row.done .title { color: var(--faint); text-decoration: line-through; }
+.row .del { opacity: 0; color: var(--faint); transition: opacity 0.2s var(--ease); }
+.row:hover .del { opacity: 1; }
+.row .del:hover { color: var(--ink); }
+
+.empty { text-align: center; color: var(--muted); padding: 60px 20px; }
+.empty svg { color: var(--faint); margin-bottom: 12px; }
+.empty p { font-size: 14px; line-height: 1.5; }
+
+footer { display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 6px; border-top: 1px solid var(--line-2); font-size: 13px; color: var(--muted);
+  position: sticky; bottom: 0; background: var(--bg); }
+footer .clear { color: var(--indigo); font-weight: 500; }
+
+/* install banner */
+.install { display: none; align-items: center; gap: 12px; margin: 6px 0 14px;
+  padding: 12px 14px; border-radius: 13px; background: rgba(106,120,255,0.1);
+  border: 1px solid rgba(106,120,255,0.28); font-size: 13px; }
+.install.show { display: flex; }
+.install img { width: 30px; height: 30px; border-radius: 8px; }
+.install .txt { flex: 1; color: var(--ink); }
+.install .txt small { color: var(--muted); display: block; }
+.install button.go { background: var(--ink); color: #0a0a0f; font-weight: 600; font-size: 13px;
+  padding: 7px 14px; border-radius: 999px; }
+.install button.x { color: var(--muted); padding: 4px 8px; }
+
+/* settings dialog */
+dialog { border: none; padding: 0; background: transparent; color: var(--ink); max-width: 92vw; }
+dialog::backdrop { background: rgba(0,0,0,0.55); backdrop-filter: blur(4px); }
+.sheet { width: 380px; max-width: 92vw; border-radius: 22px;
+  background: linear-gradient(180deg, #16161e, #0f0f16); border: 1px solid var(--line);
+  box-shadow: 0 30px 90px rgba(0,0,0,0.6); padding: 22px; }
+.sheet h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; display: flex; justify-content: space-between; }
+.opt { display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 12px 0; border-top: 1px solid var(--line-2); }
+.opt:first-of-type { border-top: none; }
+.opt .label { font-size: 14px; font-weight: 500; }
+.opt .label small { display: block; color: var(--muted); font-weight: 400; font-size: 12px; margin-top: 2px; }
+.switch { width: 42px; height: 25px; border-radius: 999px; background: rgba(255,255,255,0.14);
+  position: relative; transition: background 0.3s var(--ease); flex: none; }
+.switch.on { background: var(--indigo); }
+.switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 19px; height: 19px;
+  border-radius: 50%; background: #fff; transition: transform 0.3s var(--ease); }
+.switch.on::after { transform: translateX(17px); }
+.sheet .done { margin-top: 18px; width: 100%; padding: 11px; border-radius: 12px;
+  background: var(--indigo); color: #fff; font-weight: 600; }
+.sheet .mustline { display: flex; align-items: center; gap: 8px; padding: 8px 0; font-size: 14px; }
+.sheet .mustline svg { color: var(--red); flex: none; }
+.sheet .mustline .t { flex: 1; }
+.sheet .addmust { display: flex; gap: 8px; margin-top: 6px; }
+.sheet .addmust input { flex: 1; background: var(--glass); border: 1px solid var(--line);
+  border-radius: 10px; padding: 9px 12px; color: var(--ink); outline: none; font-size: 13px; }
+.sheet .addmust button { background: var(--glass); border: 1px solid var(--line); border-radius: 10px; padding: 0 14px; }
+.sub { font-size: 11px; font-weight: 800; letter-spacing: 0.08em; color: var(--muted); margin: 18px 0 4px; }

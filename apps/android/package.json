@@ -1,0 +1,19 @@
+{
+  "name": "today-android",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Today — Android shell (Capacitor) wrapping the shared web UI",
+  "scripts": {
+    "init": "cap add android",
+    "sync": "cap copy && cap sync",
+    "open": "cap open android"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.0"
+  },
+  "dependencies": {
+    "@capacitor/core": "^6.1.0",
+    "@capacitor/android": "^6.1.0",
+    "@capacitor/local-notifications": "^6.1.0"
+  }
+}

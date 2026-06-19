@@ -1,0 +1,17 @@
+{
+  "name": "Today — Floating Todo",
+  "short_name": "Today",
+  "description": "Your to-do list with daily must-do tasks. Installable and offline.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#050507",
+  "theme_color": "#050507",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
