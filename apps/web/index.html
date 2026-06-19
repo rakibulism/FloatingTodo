@@ -204,7 +204,7 @@
   @media (max-width: 880px) { .grid3 { grid-template-columns: 1fr; } }
 
   /* download */
-  .plat { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .plat { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
   .pcard { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); padding: 24px; display: flex; flex-direction: column; gap: 8px; transition: border-color 0.25s var(--ease), transform 0.25s var(--ease); }
   .pcard:hover { border-color: var(--border-2); transform: translateY(-3px); }
   .pcard .pi { color: var(--text); margin-bottom: 6px; } .pcard h3 { font-size: 17px; font-weight: 700; }
@@ -294,7 +294,7 @@
 <main id="main">
   <section class="hero">
     <div class="wrap">
-      <span class="eyebrow reveal"><b>[00]</b> macOS · Windows · Android · Web</span>
+      <span class="eyebrow reveal"><b>[00]</b> macOS · Windows · Android · Web · Chrome · Figma · FigJam</span>
       <div class="reveal"><div class="toggle" role="group" aria-label="Pick your device">
         <button data-mode="desktop" aria-pressed="true">Desktop</button>
         <button data-mode="mobile" aria-pressed="false">Mobile</button>
@@ -305,11 +305,11 @@
         <a class="btn primary" href="#download">Get Today — it's free</a>
         <a class="btn secondary" href="/app/">Open the web app</a>
       </div>
-      <div class="reveal"><span class="badge-lime">Now on <b>4 platforms</b> 🎉</span></div>
+      <div class="reveal"><span class="badge-lime">Now on <b>7 platforms</b> 🎉</span></div>
       <p class="note reveal">No account. No fees. Open source.</p>
 
       <div class="stats reveal">
-        <div class="stat"><div class="n">4</div><div class="l">platforms</div></div>
+        <div class="stat"><div class="n">7</div><div class="l">platforms</div></div>
         <div class="stat"><div class="n">~450 KB</div><div class="l">native app size</div></div>
         <div class="stat"><div class="n">0</div><div class="l">accounts or trackers</div></div>
         <div class="stat"><div class="n">100%</div><div class="l">open source</div></div>
@@ -388,6 +388,16 @@
           <span class="tag">Installable</span><h3>Web app</h3><p>Offline PWA. Add to home screen or dock.</p>
           <div class="dls"><a class="dl" href="/app/">Open web app <span class="sz">· no install</span></a></div>
         </div>
+        <div class="pcard reveal">
+          <div class="pi"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><circle cx="6.2" cy="6.5" r="0.7" fill="currentColor" stroke="none"/><circle cx="8.6" cy="6.5" r="0.7" fill="currentColor" stroke="none"/></svg></div>
+          <span class="tag">Browser</span><h3>Chrome</h3><p>To-do in your toolbar. Load unpacked (MV3).</p>
+          <div class="dls"><a class="dl" id="dl-chrome" href="https://github.com/rakibulism/FloatingTodo/releases/latest/download/chrome-extension.zip">Download .zip <span class="sz">· extension</span></a></div>
+        </div>
+        <div class="pcard reveal">
+          <div class="pi"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="4"/></svg></div>
+          <span class="tag">Design</span><h3>Figma &amp; FigJam</h3><p>Plugin + live on-canvas widget.</p>
+          <div class="dls"><a class="dl" href="https://github.com/rakibulism/FloatingTodo/tree/main/apps/figma-plugin">Plugin →</a><a class="dl" href="https://github.com/rakibulism/FloatingTodo/tree/main/apps/figma-widget">Widget →</a></div>
+        </div>
       </div>
       <p class="note reveal">macOS first launch: right-click → Open → Open once (ad-hoc signed). All files on the <a href="https://github.com/rakibulism/FloatingTodo/releases/latest" style="color:var(--accent);font-weight:600">latest release</a>.</p>
     </div>
@@ -432,12 +442,19 @@
   <div class="wrap foot-row">
     <a class="brand" href="#top"><img src="/assets/favicon.png" alt="" style="width:22px;height:22px;border-radius:6px" /> Today</a>
     <div class="foot-links"><a href="#how">How it works</a><a href="#download">Download</a><a href="#releases">Releases</a><a href="https://github.com/rakibulism/FloatingTodo" target="_blank" rel="noopener">GitHub</a></div>
-    <span>macOS · Windows · Android · Web · © 2026</span>
+    <span>macOS · Windows · Android · Web · Chrome · Figma · © 2026</span>
   </div>
 </footer>
 
 <script type="application/json" id="releases-data">
 [
+  { "version": "v3", "date": "2026-06-19", "title": "Now on 7 platforms — Chrome & Figma", "url": "https://github.com/rakibulism/FloatingTodo/releases/tag/v3",
+    "highlights": [
+      { "type": "feature", "text": "Chrome extension — your to-do in the toolbar" },
+      { "type": "feature", "text": "Figma & FigJam plugin — manage tasks and stamp the list onto the canvas" },
+      { "type": "feature", "text": "Figma & FigJam widget — a live, shared to-do on the canvas" },
+      { "type": "improvement", "text": "Project now MIT-licensed with Contributing guide & Code of Conduct" }
+    ] },
   { "version": "v2", "date": "2026-06-19", "title": "Cross-platform — Windows, Android & Web", "url": "https://github.com/rakibulism/FloatingTodo/releases/tag/v2",
     "highlights": [
       { "type": "feature", "text": "Native Windows app (.msi / .exe), compiled in CI" },
@@ -529,7 +546,7 @@
     fetch("https://api.github.com/repos/rakibulism/FloatingTodo/releases/latest", { headers: { Accept: "application/vnd.github+json" } })
       .then((r) => (r.ok ? r.json() : Promise.reject())).then((rel) => {
         const a = rel.assets || [], find = (re) => a.find((x) => re.test(x.name));
-        apply("dl-mac", find(/mac.*\.zip$/i) || find(/\.zip$/i)); apply("dl-win-msi", find(/\.msi$/i)); apply("dl-win-exe", find(/\.exe$/i)); apply("dl-apk", find(/\.apk$/i));
+        apply("dl-mac", find(/mac.*\.zip$/i)); apply("dl-win-msi", find(/\.msi$/i)); apply("dl-win-exe", find(/\.exe$/i)); apply("dl-apk", find(/\.apk$/i)); apply("dl-chrome", find(/chrome.*\.zip$/i));
       }).catch(() => {});
   })();
 
