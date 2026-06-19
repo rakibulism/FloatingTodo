@@ -10,12 +10,15 @@ targets, while macOS is its own polished native app.
 ```
 .
 ├── apps/
-│   ├── macos/      Native SwiftUI/AppKit app (always-on-top + launchd + voice)
-│   ├── web/        Marketing site + the installable PWA  (deployed on Vercel)
-│   │   ├── index.html        landing page
-│   │   └── app/              the installable PWA (shared web UI)
-│   ├── windows/    Tauri shell — wraps apps/web/app + always-on-top + autostart
-│   └── android/    Capacitor shell — wraps apps/web/app + scheduled notifications
+│   ├── macos/             Native SwiftUI/AppKit app (always-on-top + launchd + voice)
+│   ├── web/               Marketing site + the installable PWA  (deployed on Vercel)
+│   │   ├── index.html     landing page
+│   │   └── app/           the installable PWA (shared web UI)
+│   ├── windows/           Tauri shell — wraps apps/web/app + always-on-top + autostart
+│   ├── android/           Capacitor shell — wraps apps/web/app + scheduled notifications
+│   ├── chrome-extension/  MV3 toolbar popup — bundles apps/web/app
+│   ├── figma-plugin/      Figma + FigJam plugin (UI panel + canvas insert)
+│   └── figma-widget/      Figma + FigJam on-canvas widget (synced state)
 └── README.md
 ```
 
@@ -31,10 +34,16 @@ must-do logic, and settings.
 | **Windows** | ✅ Tauri `alwaysOnTop` | ✅ Task Scheduler | via web | — | `apps/windows` |
 | **Android** | ⚠️ overlay (advanced) | — | via web | ✅ scheduled notifications | `apps/android` |
 | **Web (PWA)** | ❌ (browser limit) | ❌ (browser limit) | ✅ Web Speech | ⚠️ while open | `apps/web/app` |
+| **Chrome extension** | — | — | ✅ Web Speech | ⚠️ while open | `apps/chrome-extension` |
+| **Figma / FigJam plugin** | — | — | — | — | `apps/figma-plugin` |
+| **Figma / FigJam widget** | — | — | — | — | `apps/figma-widget` |
 
 Web and iOS can't truly float or self-launch — that's an OS limitation, so the
 web target is a clean **installable PWA** (offline, add-to-home-screen) and uses
-notifications/voice instead of floating.
+notifications/voice instead of floating. The Chrome extension reuses that same
+web UI as a toolbar popup. The Figma **plugin** (personal panel that can stamp
+your list onto the canvas) and **widget** (a shared, on-canvas to-do) bring it
+into design files.
 
 ## <a id="install"></a>Quick start per target
 

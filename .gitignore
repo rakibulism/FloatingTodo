@@ -15,3 +15,6 @@ apps/windows/src-tauri/gen/
 node_modules/
 apps/android/android/
 apps/android/node_modules/
+
+# Chrome extension build
+apps/chrome-extension/dist/
