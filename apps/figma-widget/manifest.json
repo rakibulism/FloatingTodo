@@ -2,6 +2,7 @@
   "name": "Today — Todo Widget",
   "id": "today-todo-widget",
   "api": "1.0.0",
+  "widgetApi": "1.0.0",
   "main": "code.js",
   "editorType": ["figma", "figjam"],
   "containsWidget": true

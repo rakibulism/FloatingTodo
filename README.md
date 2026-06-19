@@ -58,3 +58,9 @@ The deployable site is `apps/web`. In the Vercel project settings set
 **Root Directory → `apps/web`** (Framework preset: **Other**, no build command).
 Then `/` serves the landing page and `/app/` serves the installable PWA. Every
 push to `main` redeploys.
+
+## Contributing & license
+
+- **Contributing:** see [CONTRIBUTING.md](CONTRIBUTING.md)
+- **Code of Conduct:** see [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+- **License:** [MIT](LICENSE) — free to use, modify, and distribute.
